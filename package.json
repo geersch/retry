@@ -16,11 +16,20 @@
     "format:ci": "FORCE_COLOR=true yarn workspaces foreach --exclude root run format --loglevel error --check",
     "lint": "FORCE_COLOR=true yarn workspaces foreach --exclude root run lint --fix",
     "lint:ci": "FORCE_COLOR=true yarn workspaces foreach --exclude root run lint",
-    "test": "FORCE_COLOR=true yarn workspaces foreach --exclude root run test"
+    "test": "FORCE_COLOR=true yarn workspaces foreach --exclude root run test",
+    "postinstall": "husky install",
+    "prepack": "pinst --disable",
+    "postpack": "pinst --enable"
   },
   "bugs": {
     "url": "https://github.com/geersch/retry/issues"
   },
   "homepage": "https://github.com/geersch/retry#readme",
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.4.1",
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "husky": "^8.0.3",
+    "pinst": "^3.0.0"
+  }
 }
