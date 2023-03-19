@@ -1,6 +1,6 @@
 {
   "name": "@geersch/retry",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Backoff strategies to use when retrying a function after a given delay.",
   "repository": {
     "type": "git",
@@ -31,6 +31,9 @@
     "url": "https://github.com/geersch/retry/issues"
   },
   "homepage": "https://github.com/geersch/retry#readme",
+  "dependencies": {
+    "rxjs": "^7.0.0"
+  },
   "devDependencies": {
     "@types/node": "^18.14.6",
     "@types/supertest": "^2.0.12",
@@ -48,8 +51,5 @@
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5",
     "vitest": "^0.29.3"
-  },
-  "peerDependencies": {
-    "rxjs": "^7.0.0"
   }
 }

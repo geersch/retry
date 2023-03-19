@@ -855,8 +855,6 @@ __metadata:
     ts-node: ^10.9.1
     typescript: ^4.9.5
     vitest: ^0.29.3
-  peerDependencies:
-    rxjs: ^7.0.0
   languageName: unknown
   linkType: soft
 
