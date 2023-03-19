@@ -15,6 +15,14 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18.x
+        registry-url: 'https://registry.npmjs.org'
     - run: npx changelogithub
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    - run: yarn install --immutable
+    - run: yarn workspace @geersch/retry npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - run: yarn workspace @geersch/nestjs-retry npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
