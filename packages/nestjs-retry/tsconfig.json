@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "dist"
+  },
+  "include": ["lib/**/*", "tests/**/*"],
+  "exclude": ["node_modules"],
+  "references": [
+    {
+      "path": "../retry/tsconfig.package.json"
+    }
+  ]
+}

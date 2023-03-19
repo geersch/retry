@@ -1,0 +1,61 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify_codebase:
+    name: Verify Codebase
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    permissions:
+      statuses: write
+      checks: write
+      contents: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+    - run: yarn install --immutable
+    - name: Lint the code
+      run: yarn lint:ci 
+    - name: Check code formatting
+      run: yarn format:ci
+    - name: Build
+      run: yarn build
+    - name: Run tests for @geersch/retry
+      working-directory: packages/retry
+      run: yarn test --coverage --reporter=default --reporter=junit --outputFile=junit.xml
+    - name: Run tests for @geersch/nestjs-retry
+      working-directory: packages/nestjs-retry
+      run: yarn test --coverage  --reporters="default" --reporters="jest-junit"
+    - name: Upload test result artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results-report
+        path: packages/**/junit.xml
+    - name: Upload test coverage artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-coverage-report
+        path: packages/**/coverage/**/*
+    - name: Report unit test results
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Test results (Node.js ${{ matrix.node-version}})
+        path: packages/**/junit.xml
+        reporter: jest-junit

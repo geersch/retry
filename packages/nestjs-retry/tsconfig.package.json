@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "rootDir": "lib"
+  },
+  "include": ["lib/**/*"],
+  "references": [{ "path": "../retry/tsconfig.package.json" }]
+}

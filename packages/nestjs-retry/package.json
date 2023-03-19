@@ -1,0 +1,68 @@
+{
+  "name": "@geersch/nestjs-retry",
+  "version": "0.1.0",
+  "description": "NestJS interceptor to retry endpoints with configurable backoff strategies.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geersch/retry.git"
+  },
+  "author": "Christophe Geers",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "clean": "rimraf -rf dist && rimraf coverage && rimraf junit.xml && rimraf tsconfig.package.tsbuildinfo",
+    "build": "tsc -b tsconfig.package.json",
+    "lint": "eslint \"lib/**/*.ts\" \"tests/**/*.ts\"",
+    "format": "prettier \"lib/**/*.ts\" \"tests/**/*.ts\"",
+    "prepack": "yarn clean && tsc -b tsconfig.package.json",
+    "test": "jest"
+  },
+  "keywords": [
+    "exponential",
+    "backoff",
+    "jitter",
+    "backoff",
+    "retry"
+  ],
+  "bugs": {
+    "url": "https://github.com/geersch/retry/issues"
+  },
+  "homepage": "https://github.com/geersch/retry#readme",
+  "devDependencies": {
+    "@geersch/retry": "workspace:^",
+    "@nestjs/common": "^9.3.9",
+    "@nestjs/core": "^9.3.9",
+    "@nestjs/platform-express": "^9.3.9",
+    "@nestjs/testing": "^9.3.9",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.14.6",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "eslint": "^8.35.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "jest": "^29.4.3",
+    "jest-junit": "^15.0.0",
+    "prettier": "^2.8.4",
+    "reflect-metadata": "^0.1.12",
+    "rimraf": "^4.3.1",
+    "rxjs": "^7.0.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@geersch/retry": "workspace:^"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^9.0.0",
+    "@nestjs/core": "^9.0.0",
+    "reflect-metadata": "^0.1.12"
+  }
+}
