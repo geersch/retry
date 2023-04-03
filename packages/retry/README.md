@@ -50,6 +50,7 @@ The current attempt is passed as a parameter to the retried function. The maximu
 
 Out the box, the following backoff strategies are supported:
 
+- DecorrelatedJitterBackoffStrategy
 - EqualJitterBackoffStrategy
 - ExponentialBackoffStrategy
 - FixedBackoffStrategyConfig
@@ -57,6 +58,33 @@ Out the box, the following backoff strategies are supported:
 - LinearBackoffStrategy
 
 Each backoff strategy has a default base delay of `100` ms. This is the intial delay time that sets the baseline.
+
+### DecorrelatedJitterBackoffStrategy
+
+Similar to the full jitter backoff strategy, but it increases the maximum jitter based on the last calculated delay.
+
+For example, with a base delay of `100` ms:
+
+- A final delay between `0` and ±`137.72` ms is calculated for retry `1`.
+- A final delay between `100` and ±`146.01` ms is calculated for retry `2`.
+- A final delay between `100` and ±`286.58` ms is calculated for retry `3`.
+- ...
+
+By default the `DecorrelatedJitterBackoffStrategy` uses a base delay of `100` ms.
+
+```ts
+const result = await retry((attempt: number) => {
+  operation();
+}, DecorrelatedJitterBackoffStrategy);
+```
+
+The default base delay of `100ms` can be overridden.
+
+```ts
+const result = await retry((attempt: number) => {
+  operation();
+}, new DecorrelatedJitterBackoffStrategy({ baseDelay: 200 }));
+```
 
 ### EqualJitterBackoffStrategy
 
