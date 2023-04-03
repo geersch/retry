@@ -1,27 +1,18 @@
 import { BackoffStrategyConfig } from './backoff-strategy-config';
 import { BackoffStrategy } from './backoff.strategy';
 
-export interface FixedBackoffStrategyConfig extends BackoffStrategyConfig {
-  /**
-   * The delay between each retry expressed in milliseconds. Defaults to 1000.
-   */
-  delay?: number;
-}
-
 export class FixedBackoffStrategy implements BackoffStrategy {
-  private readonly maxRetries: number;
-  private readonly delay: number;
+  private readonly baseDelay: number;
 
-  constructor({ delay = 100, maxRetries = 5 }: FixedBackoffStrategyConfig = {}) {
-    this.delay = delay;
-    this.maxRetries = maxRetries;
+  constructor({ baseDelay = 100 }: BackoffStrategyConfig = {}) {
+    this.baseDelay = baseDelay;
   }
 
-  getMaxRetries(): number {
-    return this.maxRetries;
-  }
-
-  getNextDelay(_attempt: number): number {
-    return this.delay;
+  *getGenerator(maxRetries: number): Generator<number> {
+    let attempt = 1;
+    while (attempt <= maxRetries) {
+      yield this.baseDelay;
+      attempt += 1;
+    }
   }
 }

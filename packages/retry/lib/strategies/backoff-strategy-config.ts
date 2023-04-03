@@ -1,6 +1,6 @@
 export interface BackoffStrategyConfig {
   /**
-   * The maximum number of retries.
+   * Is the initial delay time that sets the baseline for delay times. It default to 100 milliseconds.
    */
-  maxRetries?: number;
+  baseDelay?: number;
 }

@@ -9,6 +9,10 @@ export interface RetryOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abortRetry?: (error: any, retryCount: number) => boolean;
 
+  maxDelay?: number;
+
+  maxRetries?: number;
+
   scaleFactor?: number;
 
   unrecoverableErrors?: ErrorConstructor[];
@@ -47,17 +51,18 @@ export async function retry<T>(
 export function passRetryOperatorToPipe<T>(
   observable: Observable<T>,
   backoffStrategy: Type<BackoffStrategy> | BackoffStrategy,
-  { abortRetry = undefined, scaleFactor = 1, unrecoverableErrors = [] }: RetryOptions,
+  { abortRetry = undefined, maxDelay = 30000, maxRetries = 5, scaleFactor = 1, unrecoverableErrors = [] }: RetryOptions,
 ): Observable<T> {
   if (scaleFactor <= 0) {
     throw new TypeError(`Expected 'scaleFactor' to be a positive number greater than zero, got ${scaleFactor}.`);
   }
 
   const strategy = typeof backoffStrategy === 'function' ? new backoffStrategy() : backoffStrategy;
+  const generator = strategy.getGenerator(maxRetries);
 
   return observable.pipe(
     retryOperator({
-      count: strategy.getMaxRetries(),
+      count: maxRetries,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delay: (err: any, retryCount: number) => {
         const isUnrecoverable = unrecoverableErrors.some((error) => err instanceof error);
@@ -65,7 +70,16 @@ export function passRetryOperatorToPipe<T>(
           return throwError(() => err);
         }
 
-        const delay = strategy.getNextDelay(retryCount) * scaleFactor;
+        const { value, done } = generator.next();
+        if (done) {
+          return throwError(
+            () => new Error(`The backoff strategy did not yield a delay for retry attempt ${retryCount}.`),
+          );
+        }
+        let delay = value * scaleFactor;
+        if (delay > maxDelay) {
+          delay = maxDelay;
+        }
 
         return timer(delay);
       },
