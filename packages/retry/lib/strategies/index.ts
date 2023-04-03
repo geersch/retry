@@ -1,5 +1,6 @@
 export * from './backoff-strategy-config';
 export * from './backoff.strategy';
+export * from './decorrelated-jitter.backoff-strategy';
 export * from './equal-jitter.backoff-strategy';
 export * from './exponential.backoff-strategy';
 export * from './fixed.backoff-strategy';
