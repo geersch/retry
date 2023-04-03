@@ -1,5 +1,11 @@
 import { afterAll, beforeEach, describe, expect, it, Mock, vi } from 'vitest';
-import { FixedBackoffStrategy, retry } from '../lib';
+import {
+  BackoffStrategy,
+  BackoffStrategyConfig,
+  ExponentialBackoffStrategy,
+  FixedBackoffStrategy,
+  retry,
+} from '../lib';
 
 const timerSpy: Mock = vi.fn();
 
@@ -14,6 +20,19 @@ vi.mock('rxjs', async () => {
     },
   };
 });
+
+export class YieldTwoDelaysBackoffStrategy implements BackoffStrategy {
+  private readonly baseDelay: number;
+
+  constructor({ baseDelay = 100 }: BackoffStrategyConfig = {}) {
+    this.baseDelay = baseDelay;
+  }
+
+  *getGenerator(): Generator<number> {
+    yield this.baseDelay;
+    yield this.baseDelay;
+  }
+}
 
 class UnrecoverableError extends Error {}
 
@@ -36,9 +55,46 @@ describe('retry', () => {
       throw new Error('Oops!');
     }
 
-    await expect(retry(operation, new FixedBackoffStrategy({ delay: 1000, maxRetries: 5 }))).rejects.toThrow();
+    await expect(retry(operation, new FixedBackoffStrategy({ baseDelay: 1000 }), { maxRetries: 10 })).rejects.toThrow();
 
-    expect(attempts).toEqual(6);
+    expect(attempts).toEqual(11);
+  });
+
+  it('should cap the maximum delay', async () => {
+    let attempts = 0;
+
+    function operation(): Promise<void> {
+      attempts += 1;
+      throw new Error('Oops!');
+    }
+
+    await expect(
+      retry(operation, new ExponentialBackoffStrategy({ baseDelay: 100 }), { maxRetries: 10, maxDelay: 5000 }),
+    ).rejects.toThrow();
+
+    expect(attempts).toEqual(11);
+
+    expect(timerSpy).toHaveBeenCalledTimes(10);
+    expect(timerSpy).toHaveBeenNthCalledWith(1, 200);
+    expect(timerSpy).toHaveBeenNthCalledWith(2, 400);
+    expect(timerSpy).toHaveBeenNthCalledWith(3, 800);
+    expect(timerSpy).toHaveBeenNthCalledWith(4, 1600);
+    expect(timerSpy).toHaveBeenNthCalledWith(5, 3200);
+    expect(timerSpy).toHaveBeenNthCalledWith(6, 5000);
+    expect(timerSpy).toHaveBeenNthCalledWith(7, 5000);
+    expect(timerSpy).toHaveBeenNthCalledWith(8, 5000);
+    expect(timerSpy).toHaveBeenNthCalledWith(9, 5000);
+    expect(timerSpy).toHaveBeenNthCalledWith(10, 5000);
+  });
+
+  it('should throw an error if the backoff strategy does not yield a delay', async () => {
+    function operation(): Promise<void> {
+      throw new Error('Oops!');
+    }
+
+    await expect(retry(operation, YieldTwoDelaysBackoffStrategy, { maxRetries: 3 })).rejects.toThrow(
+      /The backoff strategy did not yield a delay for retry attempt 3./,
+    );
   });
 
   it('should return a value when the operation succeeds', async () => {
@@ -81,8 +137,8 @@ describe('retry', () => {
       throw new Error('Oops!');
     }
 
-    await expect(retry(operation, new FixedBackoffStrategy({ delay: 50, maxRetries: 5 }))).rejects.toThrow();
-    expect(attempts).toEqual([1, 2, 3, 4, 5, 6]);
+    await expect(retry(operation, new FixedBackoffStrategy({ baseDelay: 50 }), { maxRetries: 10 })).rejects.toThrow();
+    expect(attempts).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   });
 
   it('should apply the scale factor', async () => {
@@ -94,7 +150,7 @@ describe('retry', () => {
     }
 
     await expect(
-      retry(operation, new FixedBackoffStrategy({ delay: 100, maxRetries: 5 }), { scaleFactor: 0.5 }),
+      retry(operation, new FixedBackoffStrategy({ baseDelay: 100 }), { maxRetries: 5, scaleFactor: 0.5 }),
     ).rejects.toThrow();
 
     expect(timerSpy).toHaveBeenCalledTimes(5);
@@ -197,7 +253,7 @@ describe('retry', () => {
       return 'Good news everyone!';
     }
 
-    const value = await retry(operation, new FixedBackoffStrategy({ delay: 50, maxRetries: 5 }));
+    const value = await retry(operation, new FixedBackoffStrategy({ baseDelay: 50 }));
 
     expect(value).toEqual('Good news everyone!');
   });

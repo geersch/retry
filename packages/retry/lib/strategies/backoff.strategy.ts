@@ -1,5 +1,3 @@
 export interface BackoffStrategy {
-  getMaxRetries(): number;
-
-  getNextDelay(attempt: number): number;
+  getGenerator(maxRetries: number): Generator<number>;
 }
