@@ -28,14 +28,13 @@ You can also instantiate the `RetryInterceptor` and pass the desired backoff str
 export class CatsController {}
 ```
 
-Instead of passing the type of the backoff strategy you can also instantiate it and override its defaults.
+Instead of passing the type of the backoff strategy you can also instantiate it and override its default base delay.
 
 ```ts
 @UseInterceptors(
   new RetryInterceptor(
     new EqualJitterBackoffStrategy({
       baseDelay: 100,
-      maximumDelay: 5000,
     }),
   ),
 )
@@ -51,9 +50,10 @@ class UnrecoverableError extends Error {}
   new RetryInterceptor(
     new EqualJitterBackoffStrategy({
       baseDelay: 100,
-      maximumDelay: 5000,
     }),
     {
+      maxDelay: 5000,
+      maxRetries: 3,
       scaleFactor: 2,
       abortRetry: (err: any, retryCount: number) => true,
       unrecoverableErrors: [UnrecoverableError],
