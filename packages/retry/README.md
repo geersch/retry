@@ -53,6 +53,7 @@ Out the box, the following backoff strategies are supported:
 - DecorrelatedJitterBackoffStrategy
 - EqualJitterBackoffStrategy
 - ExponentialBackoffStrategy
+- FibonacciBackoffStrategy
 - FixedBackoffStrategyConfig
 - FullJitterBackOffStrategy
 - LinearBackoffStrategy
@@ -147,6 +148,35 @@ const result = await retry((attempt: number) => {
 }, new ExponentialBackoffStrategy({ baseDelay: 200 }));
 ```
 
+### FibonacciBackoffStrategy
+
+The `FibonacciBackOffStrategy` computes the delay before the next retry using a [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_sequence) approach. It calculates the delay based on the current retry attempt and a configured base delay.
+
+For example, with a base delay of `100` ms:
+
+- A delay of `100` ms is calculated for retry `1`.
+- A delay of `100` ms is calculated for retry `2`.
+- A delay of `200` ms is calculated for retry `3`.
+- A delay of `300` ms is calculated for retry `4`.
+- A delay of `500` ms is calculated for retry `5`.
+- ...
+
+By default, the `FibonacciBackOffStrategy` uses a base delay of `100` ms.
+
+```ts
+const result = await retry(async (attempt: number) => {
+  await operation();
+}, FibonacciBackOffStrategy);
+```
+
+The default base delay of `100` ms can be overridden.
+
+```ts
+const result = await retry(async (attempt: number) => {
+  await operation();
+}, new FibonacciBackOffStrategy({ baseDelay: 200 }));
+```
+
 ### FixedBackoffStrategy
 
 Uses the same delay between every retry attempt. By default the `FixedBackoffStrategyConfig` uses a base delay of `100` ms. As the name suggests, the delay is fixed. The configured base delay will be used for all attempts.
@@ -162,7 +192,7 @@ The default base delay of `100ms` can be overridden.
 ```ts
 const result = await retry((attempt: number) => {
   operation();
-}, new FixedBackoffStrategyConfig({ baseDelay: 100 }));
+}, new FixedBackoffStrategyConfig({ baseDelay: 200 }));
 ```
 
 ### FullJitterBackOffStrategy
@@ -357,26 +387,30 @@ Here's an example to implement a backoff strategy that calculates the next delay
 ```ts
 export class FibonacciBackoffStrategy implements BackoffStrategy {
   private readonly baseDelay: number;
+  private prevDelay: number;
+  private currentDelay: number;
 
   constructor({ baseDelay = 100 }: BackoffStrategyConfig = {}) {
     this.baseDelay = baseDelay;
+    this.prevDelay = 0;
+    this.currentDelay = 1;
   }
 
-  *getGenerator(): Generator<number> {
-    let attempt = 1;
-    while (true) {
-      const sequence = [0, 1];
-      for (let i = 2; i <= attempt; i++) {
-        sequence[i] = sequence[i - 2] + sequence[i - 1];
-      }
-      yield sequence[attempt] * this.baseDelay;
+  *getGenerator(maxRetries: number): Generator<number> {
+    let attempt = 0;
+    while (attempt < maxRetries) {
+      const nextDelay = this.baseDelay * this.currentDelay;
+      yield nextDelay;
+      const sum = this.prevDelay + this.currentDelay;
+      this.prevDelay = this.currentDelay;
+      this.currentDelay = sum;
       attempt += 1;
     }
   }
 }
 ```
 
-This example shows a generator that will keep yielding delays. The maximum number of retries is passed to the `getGenerator()` function allowing you to determine when to yield the last delay. If the generator yields less delays that the number of maximum retries an error will be thrown.
+The maximum number of retries is passed to the `getGenerator()` function allowing you to determine when to yield the last delay. If the generator yields less delays that the number of maximum retries an error will be thrown. You can also create a generator that will keep yielding delays.
 
 ## License
 
