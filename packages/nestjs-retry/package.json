@@ -1,6 +1,6 @@
 {
   "name": "@geersch/nestjs-retry",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "NestJS interceptor to retry endpoints with configurable backoff strategies.",
   "repository": {
     "type": "git",
