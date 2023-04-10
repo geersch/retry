@@ -12,16 +12,14 @@ $ yarn add @geersch/nestjs-retry
 
 ## Usage
 
-Use the `@UseInterceptors` decorator imported from the `@nestjs/common` package to set up the interceptor. The interceptor can be controller-scope, method-scoped, or global-scoped. Have a look at the [NestJS documentation](https://docs.nestjs.com/interceptors#binding-interceptors) for all the options on how to bind interceptors.
+Use the `@UseInterceptors` decorator imported from the `@nestjs/common` package to set up the interceptor. The interceptor can be controller-scoped, method-scoped, or global-scoped. Please refer to the [NestJS documentation](https://docs.nestjs.com/interceptors#binding-interceptors) for all the options on how to bind interceptors.
 
 ```ts
 @UseInterceptors(RetryInterceptor)
 export class CatsController {}
 ```
 
-Using the above notation, each route handler defined in `CatsController` will use the `RetryInterceptor`. By default it defaults to using the `EqualJitterBackoffStrategy` backoff strategy.
-
-You can also instantiate the `RetryInterceptor` and pass the desired backoff strategy type.
+Using the above notation, each route handler defined in `CatsController` will use the `RetryInterceptor`, which uses the `EqualJitterBackoffStrategy` backoff strategy by default. Alternatively, you can instantiate the `RetryInterceptor` yourself and pass the desired type of backoff strategy.
 
 ```ts
 @UseInterceptors(new RetryInterceptor(FullJitterBackOffStrategy))
