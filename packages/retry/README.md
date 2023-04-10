@@ -34,9 +34,9 @@ const result = await retry((attempt: number) => {
 }, EqualJitterBackoffStrategy);
 ```
 
-If an error occurs during the `operation()` it will be retried using the `EqualJitterBackoffStrategy`.
+If an error occurs during the `operation()`, it will be retried using the `EqualJitterBackoffStrategy`.
 
-You can pass the type of backoff strategy to use, in which case it will be instantiated for you, using its default base delay, or you can instantiate it yourself and override the base delay.
+You can pass the type of backoff strategy to use, in which case it will be instantiated for you with its default base delay, or you can instantiate it yourself and override the base delay as needed.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -44,11 +44,11 @@ const result = await retry((attempt: number) => {
 }, new EqualJitterBackoffStrategy({ baseDelay: 200 }));
 ```
 
-The current attempt is passed as a parameter to the retried function. The maximum number of retries can be passed to the backoff strategy. If the maximum is 5, then the function will be executed a maximum number of 6 times (1 initial call + 5 retries).
+The current attempt is passed as a parameter to the retried function. The maximum number of retries can be passed to the backoff strategy. If the maximum is set to 5, then the function will be executed a maximum of 6 times (1 initial call + 5 retries).
 
 ## Backoff Strategies
 
-Out the box, the following backoff strategies are supported:
+The following backoff strategies are supported out of the box:
 
 - DecorrelatedJitterBackoffStrategy
 - EqualJitterBackoffStrategy
@@ -58,7 +58,7 @@ Out the box, the following backoff strategies are supported:
 - FullJitterBackOffStrategy
 - LinearBackoffStrategy
 
-Each backoff strategy has a default base delay of `100` ms. This is the intial delay time that sets the baseline.
+Each of these strategies has a default base delay of `100` ms, which is the initial delay time that sets the baseline for calculating subsequent delays during retries.
 
 ### DecorrelatedJitterBackoffStrategy
 
@@ -71,7 +71,7 @@ For example, with a base delay of `100` ms:
 - A final delay between `100` and ±`286.58` ms is calculated for retry `3`.
 - ...
 
-By default the `DecorrelatedJitterBackoffStrategy` uses a base delay of `100` ms.
+By default, the `DecorrelatedJitterBackoffStrategy` uses a base delay of `100` ms.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -79,7 +79,7 @@ const result = await retry((attempt: number) => {
 }, DecorrelatedJitterBackoffStrategy);
 ```
 
-The default base delay of `100ms` can be overridden.
+The default base delay of `100` ms can be overridden.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -89,7 +89,7 @@ const result = await retry((attempt: number) => {
 
 ### EqualJitterBackoffStrategy
 
-Uses an equal jitter for computing the delay before the next retry. First an exponential delay is calculated based on the current retry attempt and configured base delay.
+Uses an equal jitter for computing the delay before the next retry. First, an exponential delay is calculated based on the current retry attempt and configured base delay.
 
 For example, with a base delay of `100` ms:
 
@@ -98,7 +98,7 @@ For example, with a base delay of `100` ms:
 - An exponential delay of `800` ms is calculated for retry `3`.
 - ...
 
-Half of this exponential delay is kept and a random value (jitter) between 0 and half of the exponential delay plus one is added.
+Half of this exponential delay is kept, and a random value (jitter) between 0 and half of the exponential delay plus one is added.
 
 - A final delay between `100` and `201` ms is calculated for retry `1`.
 - A final delay between `200` and `401` ms is calculated for retry `2`.
@@ -113,7 +113,7 @@ const result = await retry((attempt: number) => {
 }, EqualJitterBackoffStrategy);
 ```
 
-The default base delay of `100ms` can be overridden.
+The default base delay of `100` ms can be overridden.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -132,7 +132,7 @@ For example, with a base delay of `100` ms:
 - An exponential delay of `800` ms is calculated for retry `3`.
 - ...
 
-By default the `ExponentialBackoffStrategy` uses a base delay of `100` ms.
+By default, the `ExponentialBackoffStrategy` uses a base delay of `100` ms.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -140,7 +140,7 @@ const result = await retry((attempt: number) => {
 }, ExponentialBackoffStrategy);
 ```
 
-The default base delay of `100ms` can be overridden.
+The default base delay of `100` ms can be overridden.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -179,7 +179,7 @@ const result = await retry(async (attempt: number) => {
 
 ### FixedBackoffStrategy
 
-Uses the same delay between every retry attempt. By default the `FixedBackoffStrategyConfig` uses a base delay of `100` ms. As the name suggests, the delay is fixed. The configured base delay will be used for all attempts.
+Uses the same delay between every retry attempt. By default, the `FixedBackoffStrategyConfig` uses a base delay of `100` ms. As the name suggests, the delay is fixed. The configured base delay will be used for all attempts.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -187,7 +187,7 @@ const result = await retry((attempt: number) => {
 }, FixedBackoffStrategyConfig);
 ```
 
-The default base delay of `100ms` can be overridden.
+The default base delay of `100` ms can be overridden.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -197,7 +197,7 @@ const result = await retry((attempt: number) => {
 
 ### FullJitterBackOffStrategy
 
-Uses a full jitter for computing the delay before the next retry. First an exponential delay is calculated based on the current retry attempt and configured base delay.
+It uses full jitter for computing the delay before the next retry. First, an exponential delay is calculated based on the current retry attempt and the configured base delay.
 
 For example, with a base delay of `100` ms:
 
@@ -206,14 +206,14 @@ For example, with a base delay of `100` ms:
 - An exponential delay of `800` ms is calculated for retry `3`.
 - ...
 
-Then a random delay between `0` and this exponential delay is taken.
+Then, a random delay between `0` and this exponential delay is taken.
 
 - A final delay between `0` and `200` ms is calculated for retry `1`.
 - A final delay between `0` and `400` ms is calculated for retry `2`.
 - A final delay between `0` and `800` ms is calculated for retry `3`.
 - ...
 
-By default the `FullJitterBackOffStrategy` uses a base delay of `100` ms.
+By default, the `FullJitterBackOffStrategy` uses a base delay of 100 ms.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -221,7 +221,7 @@ const result = await retry((attempt: number) => {
 }, FullJitterBackOffStrategy);
 ```
 
-The default base delay of `100ms` can be overridden.
+The default base delay of `100` ms can be overridden.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -231,7 +231,7 @@ const result = await retry((attempt: number) => {
 
 ### LinearBackoffStrategy
 
-Multiplies the base delay with the current retry attempt to calculate the delay before the next retry.
+The base delay is multiplied by the current retry attempt to calculate the delay before the next retry.
 
 For example, with a base delay of `100` ms:
 
@@ -246,7 +246,7 @@ const result = await retry((attempt: number) => {
 }, LinearBackoffStrategy);
 ```
 
-The default base delay of `100ms` can be overridden.
+The default base delay of `100` ms can be overridden.
 
 ```ts
 const result = await retry((attempt: number) => {
@@ -256,7 +256,7 @@ const result = await retry((attempt: number) => {
 
 ## Retry Options
 
-Apart from a backoff strategy you can also pass optional retry options as a third parameter.
+In addition to a backoff strategy, you can also pass optional retry options as a third parameter.
 
 ```ts
 const result = await retry(
@@ -274,7 +274,7 @@ const result = await retry(
 
 ### abortRetry
 
-A synchronous callback function that is executed before every retry attempt. It is passed the error that occured and the current retry attempt. Return `true` if you want to abort or `false` too keep trying.
+A synchronous callback function that is executed before every retry attempt. It is passed the error that occurred and the current retry attempt. Return `true` if you want to abort, or `false` to keep trying.
 
 ```ts
 const result = await retry(
@@ -296,7 +296,7 @@ const result = await retry(
 
 ### maxDelay
 
-To clamp the delay calculated by the backoff strategy use the `maxDelay` option. It defaults to `30000` milliseconds.
+To clamp the delay calculated by the backoff strategy, use the maxDelay option. It defaults to `30000` milliseconds.
 
 The following example clamps the delay calculated by the backoff strategy to a maximum of `10000` milliseconds.
 
@@ -316,7 +316,7 @@ const result = await retry(
 
 Use the `maxRetries` option to specify the maximum number of retry attempts. It defaults to `5`.
 
-The following example will execute the `operation()` a maximum number of `4` times. Once for the initial invocation plus a maximum of `3` retries.
+The following example will execute the `operation()` a maximum of `4` times - once for the initial invocation, plus a maximum of `3` retries.
 
 ```ts
 const result = await retry(
@@ -332,9 +332,9 @@ const result = await retry(
 
 ### scaleFactor
 
-Certain strategies can quickly lead to long delays between retry attempts. To offset this, while still retaining the curve between retry attemps, you can specify a `scaleFactor`. It can be used to reduce or increase the calculated delay.
+Certain strategies can quickly lead to long delays between retry attempts. To offset this, while still retaining the curve between retry attempts, you can specify a `scaleFactor`. It can be used to reduce or increase the calculated delay.
 
-For example, a `scaleFactor` of `0.5` will half the computed delay, but a `scaleFactor` of `2` will double it.
+For example, a `scaleFactor` of `0.5` will halve the computed delay, but a `scaleFactor` of `2` will double it.
 
 ```ts
 const result = await retry(
@@ -350,7 +350,7 @@ const result = await retry(
 
 ### unrecoverableErrors
 
-Similar to the `abortRetry` option, but instead of a callback function you can specify an array of error types. If the error that occurred is an instance of one of the specified error the retry attempts will be aborted.
+Similar to the `abortRetry` option, but instead of a callback function, you can specify an array of error types. If the error that occurred is an instance of one of the specified error types, the retry attempts will be aborted.
 
 ```ts
 class UnrecoverableError extends Error {}
@@ -380,9 +380,9 @@ export interface BackoffStrategy {
 }
 ```
 
-Each backoff strategy is basically a [generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) that returns the next delay.
+Each backoff strategy is essentially a [generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) that returns the next delay.
 
-Here's an example to implement a backoff strategy that calculates the next delay based on the [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_sequence). Based on the current retry atttempt the matching Fibonacci number is calculated and used as the delay before the next retry.
+Here's an example of implementing a backoff strategy that calculates the next delay based on the [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_sequence). Based on the current retry attempt, the corresponding Fibonacci number is calculated and used as the delay before the next retry.
 
 ```ts
 export class FibonacciBackoffStrategy implements BackoffStrategy {
@@ -410,7 +410,7 @@ export class FibonacciBackoffStrategy implements BackoffStrategy {
 }
 ```
 
-The maximum number of retries is passed to the `getGenerator()` function allowing you to determine when to yield the last delay. If the generator yields less delays that the number of maximum retries an error will be thrown. You can also create a generator that will keep yielding delays.
+The maximum number of retries is passed to the `getGenerator()` function, allowing you to determine when to yield the last delay. If the generator yields fewer delays than the number of maximum retries, an error will be thrown. You can also create a generator that will keep yielding delays.
 
 ## License
 
