@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import { ExponentialBackoffStrategy } from '../../lib/strategies';
 
 // The delay of the FullJitterBackOffStrategy is randomized.We can't assert that the output is what we expect it to be.
