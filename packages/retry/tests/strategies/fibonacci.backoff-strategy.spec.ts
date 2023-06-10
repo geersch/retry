@@ -1,15 +1,14 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { FibonacciBackoffStrategy } from '../../lib/strategies';
 
 describe('FibonacciBackoffStrategy', () => {
   beforeEach(() => {
     // Seed the random number generator to get predictable results
-    Math.random = vi.fn().mockReturnValue(0.5);
+    Math.random = jest.fn().mockReturnValue(0.5);
   });
 
   afterEach(() => {
     // Restore the original Math.random function
-    vi.spyOn(global.Math, 'random').mockRestore();
+    jest.spyOn(global.Math, 'random').mockRestore();
   });
 
   it('should calculate the delay', () => {

@@ -1,4 +1,3 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { EqualJitterBackoffStrategy } from '../../lib/strategies';
 
 // The delay of the EqualJitterBackOffStrategy is randomized.We can't assert that the output is what we expect it to be.
@@ -7,12 +6,12 @@ import { EqualJitterBackoffStrategy } from '../../lib/strategies';
 describe('EqualJitterBackOffStrategy', () => {
   beforeEach(() => {
     // Seed the random number generator to get predictable results
-    Math.random = vi.fn().mockReturnValue(0.5);
+    Math.random = jest.fn().mockReturnValue(0.5);
   });
 
   afterEach(() => {
     // Restore the original Math.random function
-    vi.spyOn(global.Math, 'random').mockRestore();
+    jest.spyOn(global.Math, 'random').mockRestore();
   });
 
   it('should calculate the delay', () => {

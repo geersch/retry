@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import { LinearBackoffStrategy } from '../../lib/strategies';
 
 describe('LinearBackoffStrategy', () => {

@@ -38,7 +38,7 @@ jobs:
       run: yarn build
     - name: Run tests for @geersch/retry
       working-directory: packages/retry
-      run: yarn test --coverage --reporter=default --reporter=junit --outputFile=junit.xml
+      run: yarn test --coverage --reporters="default" --reporters="jest-junit"
     - name: Run tests for @geersch/nestjs-retry
       working-directory: packages/nestjs-retry
       run: yarn test --coverage  --reporters="default" --reporters="jest-junit"

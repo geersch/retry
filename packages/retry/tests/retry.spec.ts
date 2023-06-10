@@ -1,4 +1,3 @@
-import { afterAll, beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import {
   BackoffStrategy,
   BackoffStrategyConfig,
@@ -7,10 +6,10 @@ import {
   retry,
 } from '../lib';
 
-const timerSpy: Mock = vi.fn();
+const timerSpy = jest.fn();
 
-vi.mock('rxjs', async () => {
-  const originalModule = await vi.importActual<Record<string, unknown>>('rxjs');
+jest.mock('rxjs', () => {
+  const originalModule = jest.requireActual('rxjs');
 
   return {
     ...originalModule,
