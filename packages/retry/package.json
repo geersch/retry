@@ -1,6 +1,6 @@
 {
   "name": "@geersch/retry",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Backoff strategies to use when retrying a function after a given delay.",
   "repository": {
     "type": "git",
