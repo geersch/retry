@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [18.x, 20.x]
 
     permissions:
       statuses: write
@@ -23,9 +23,9 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
@@ -43,14 +43,14 @@ jobs:
       working-directory: packages/nestjs-retry
       run: yarn test --coverage  --reporters="default" --reporters="jest-junit"
     - name: Upload test result artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: test-results-report
+        name: test-results-report-${{ matrix.node-version }}
         path: packages/**/junit.xml
     - name: Upload test coverage artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: test-coverage-report
+        name: test-coverage-report-${{ matrix.node-version }}
         path: packages/**/coverage/**/*
     - name: Report unit test results
       uses: dorny/test-reporter@v1
