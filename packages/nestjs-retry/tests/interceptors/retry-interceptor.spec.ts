@@ -1,15 +1,14 @@
 import { FixedBackoffStrategy } from '@geersch/retry';
-import { expect } from '@jest/globals';
 import { Controller, Get, Headers, INestApplication, Module, UseInterceptors } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { RetryInterceptor } from '../../lib';
 
-const timerSpy: jest.Mock = jest.fn();
-const headerSpy: jest.Mock = jest.fn();
+const timerSpy = vi.fn();
+const headerSpy = vi.fn();
 
-jest.mock('rxjs', () => {
-  const originalModule = jest.requireActual('rxjs');
+vi.mock('rxjs', async () => {
+  const originalModule = await vi.importActual<Record<string, unknown>>('rxjs');
 
   return {
     ...originalModule,

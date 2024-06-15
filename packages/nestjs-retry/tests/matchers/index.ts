@@ -1,1 +1,1 @@
-export * from './to-be-between.matcher';
+export { toBeBetween } from './to-be-between';

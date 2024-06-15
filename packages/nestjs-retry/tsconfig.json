@@ -3,7 +3,8 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["vitest/globals"]
   },
   "include": ["lib/**/*", "tests/**/*"],
   "exclude": ["node_modules"],

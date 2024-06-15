@@ -6,12 +6,12 @@ import { FullJitterBackOffStrategy } from '../../lib/strategies';
 describe('FullJitterBackOffStrategy', () => {
   beforeEach(() => {
     // Seed the random number generator to get predictable results
-    Math.random = jest.fn().mockReturnValue(0.5);
+    Math.random = vi.fn().mockReturnValue(0.5);
   });
 
   afterEach(() => {
     // Restore the original Math.random function
-    jest.spyOn(global.Math, 'random').mockRestore();
+    vi.spyOn(global.Math, 'random').mockRestore();
   });
 
   it('should calculate the delay', () => {
