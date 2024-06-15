@@ -6,10 +6,10 @@ import {
   retry,
 } from '../lib';
 
-const timerSpy = jest.fn();
+const timerSpy = vi.fn();
 
-jest.mock('rxjs', () => {
-  const originalModule = jest.requireActual('rxjs');
+vi.mock('rxjs', async () => {
+  const originalModule = await vi.importActual<Record<string, unknown>>('rxjs');
 
   return {
     ...originalModule,
