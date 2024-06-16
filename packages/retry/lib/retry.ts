@@ -1,8 +1,12 @@
-import { Type } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defer, firstValueFrom, Observable, retry as retryOperator, tap, throwError, timer } from 'rxjs';
 import { BackoffStrategy } from './strategies';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/ban-types
+export interface Type<T = any> extends Function {
+  new (...args: any[]): T;
+}
+
 export type ErrorConstructor = new (...args: any[]) => Error;
 
 export interface RetryOptions {
