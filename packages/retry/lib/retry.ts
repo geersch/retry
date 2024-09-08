@@ -2,15 +2,11 @@
 import { defer, firstValueFrom, Observable, retry as retryOperator, tap, throwError, timer } from 'rxjs';
 import { BackoffStrategy } from './strategies';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export interface Type<T = any> extends Function {
-  new (...args: any[]): T;
-}
+type Type<T = any> = new (...args: any[]) => T;
 
 export type ErrorConstructor = new (...args: any[]) => Error;
 
 export interface RetryOptions {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abortRetry?: (error: any, retryCount: number) => boolean;
 
   maxDelay?: number;
@@ -21,16 +17,6 @@ export interface RetryOptions {
 
   unrecoverableErrors?: ErrorConstructor[];
 }
-
-export function retry<T>(
-  operation: (retryCount: number) => T | Promise<T>,
-  backoffStrategy: Type<BackoffStrategy> | BackoffStrategy,
-): Promise<T>;
-export function retry<T>(
-  operation: (retryCount: number) => T | Promise<T>,
-  backoffStrategy: Type<BackoffStrategy> | BackoffStrategy,
-  options: RetryOptions,
-): Promise<T>;
 
 export async function retry<T>(
   operation: (retryCount: number) => T | Promise<T>,
@@ -67,7 +53,6 @@ export function passRetryOperatorToPipe<T>(
   return observable.pipe(
     retryOperator({
       count: maxRetries,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delay: (err: any, retryCount: number) => {
         const isUnrecoverable = unrecoverableErrors.some((error) => err instanceof error);
         if (isUnrecoverable || (abortRetry ? abortRetry(err, retryCount) : false)) {
