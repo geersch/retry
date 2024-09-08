@@ -1,5 +1,5 @@
 import { FixedBackoffStrategy } from '@geersch/retry';
-import { Controller, Get, Headers, INestApplication, Module, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Headers, INestApplication, UseInterceptors } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { RetryInterceptor } from '../../lib';
@@ -73,17 +73,12 @@ class TestController {
   }
 }
 
-@Module({
-  controllers: [TestController],
-})
-class TestingModule {}
-
 describe('RetryInterceptor', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
-      imports: [TestingModule],
+      controllers: [TestController],
     }).compile();
     app = testingModule.createNestApplication();
     await app.init();
