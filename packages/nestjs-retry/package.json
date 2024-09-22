@@ -39,11 +39,11 @@
     "@nestjs/core": "^10.4.3",
     "@nestjs/platform-express": "^10.4.3",
     "@nestjs/testing": "^10.4.3",
-    "@swc/core": "^1.7.23",
+    "@swc/core": "^1.7.26",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^22.5.4",
     "@types/supertest": "^6.0.2",
-    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/coverage-v8": "^2.1.1",
     "eslint": "^9.10.0",
     "prettier": "^3.3.3",
     "reflect-metadata": "^0.2.2",
@@ -54,7 +54,7 @@
     "typescript": "^5.4.5",
     "typescript-eslint": "^8.4.0",
     "unplugin-swc": "^1.5.1",
-    "vitest": "^2.0.5"
+    "vitest": "^2.1.1"
   },
   "dependencies": {
     "@geersch/retry": "workspace:^"
