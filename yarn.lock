@@ -536,10 +536,10 @@ __metadata:
   dependencies:
     "@eslint/js": ^9.10.0
     "@geersch/retry": "workspace:^"
-    "@nestjs/common": ^10.4.3
-    "@nestjs/core": ^10.4.3
-    "@nestjs/platform-express": ^10.4.3
-    "@nestjs/testing": ^10.4.3
+    "@nestjs/common": ^10.4.5
+    "@nestjs/core": ^10.4.5
+    "@nestjs/platform-express": ^10.4.5
+    "@nestjs/testing": ^10.4.5
     "@swc/core": ^1.7.26
     "@types/eslint__js": ^8.42.3
     "@types/node": ^22.5.4
@@ -701,9 +701,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/common@npm:^10.4.3":
-  version: 10.4.3
-  resolution: "@nestjs/common@npm:10.4.3"
+"@nestjs/common@npm:^10.4.5":
+  version: 10.4.5
+  resolution: "@nestjs/common@npm:10.4.5"
   dependencies:
     iterare: 1.2.1
     tslib: 2.7.0
@@ -718,13 +718,13 @@ __metadata:
       optional: true
     class-validator:
       optional: true
-  checksum: 980d545251c9310fb0680c07fe8a4de65033970e6db0d2bb9b9a82d54842c5e487ca94d1c147dbbdc959b745dabfa9a30a12915523cdb714c450130bc11f14b7
+  checksum: 4d98b3f27099ee17dd63fae46eda23980de209c542e72ddc0e626a8f0c3d5c5236c41dc51b421ecb2b0ac1405321689afea16235952b6d41a20aedce14964c47
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:^10.4.3":
-  version: 10.4.3
-  resolution: "@nestjs/core@npm:10.4.3"
+"@nestjs/core@npm:^10.4.5":
+  version: 10.4.5
+  resolution: "@nestjs/core@npm:10.4.5"
   dependencies:
     "@nuxtjs/opencollective": 0.3.2
     fast-safe-stringify: 2.1.1
@@ -746,29 +746,29 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: 55e2b96f9851d58e42c35d2057bca7b700ced22724e5b17745a88bf2e1f8d61d9d7a84f31b19106982c0cd3d913de165031451ff3b05da1f7c04b83988c499e5
+  checksum: 768315ef5065e208fd9da4139a0d3fc576e860d51f40c5485032d0f0c2431ba60bfd44aa0726cedbab8bbf5d1c221efd6f1eb9c34e33524144d9c033f0f5f978
   languageName: node
   linkType: hard
 
-"@nestjs/platform-express@npm:^10.4.3":
-  version: 10.4.3
-  resolution: "@nestjs/platform-express@npm:10.4.3"
+"@nestjs/platform-express@npm:^10.4.5":
+  version: 10.4.5
+  resolution: "@nestjs/platform-express@npm:10.4.5"
   dependencies:
     body-parser: 1.20.3
     cors: 2.8.5
-    express: 4.21.0
+    express: 4.21.1
     multer: 1.4.4-lts.1
     tslib: 2.7.0
   peerDependencies:
     "@nestjs/common": ^10.0.0
     "@nestjs/core": ^10.0.0
-  checksum: 278210233291350e9a116f39487608a93e75e042078ca7fa101754c3cc7042467f48ae62315a0423ada6e658cace192d495ddd735064df7039ff355b1b37b210
+  checksum: 57cd449e66f86253a4a95fe9c21c4ea7b159d36474437aecc819bfe37bddb16a086627d38671b4f5352bc6783df59ad582a3d7cd9aefd7f176b183844d55d2ed
   languageName: node
   linkType: hard
 
-"@nestjs/testing@npm:^10.4.3":
-  version: 10.4.3
-  resolution: "@nestjs/testing@npm:10.4.3"
+"@nestjs/testing@npm:^10.4.5":
+  version: 10.4.5
+  resolution: "@nestjs/testing@npm:10.4.5"
   dependencies:
     tslib: 2.7.0
   peerDependencies:
@@ -781,7 +781,7 @@ __metadata:
       optional: true
     "@nestjs/platform-express":
       optional: true
-  checksum: 070033c594ffbdbee6ee00b8882c4ef0e8ac87745983137ef1dd5898e98be662669fef87e5e416d206a2a6abacd358f298d6ee5f3e67a66b052b50d4616d0285
+  checksum: 4e1af5ea638e00b7a66255aee496be08bbb111717e09e94161ce52d2fceea96a556d9858bdc0de56054f880b2cde201f5722f9d8d37567f8db3570d2b8ea8641
   languageName: node
   linkType: hard
 
@@ -2007,10 +2007,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:0.6.0":
-  version: 0.6.0
-  resolution: "cookie@npm:0.6.0"
-  checksum: f56a7d32a07db5458e79c726b77e3c2eff655c36792f2b6c58d351fb5f61531e5b1ab7f46987150136e366c65213cbe31729e02a3eaed630c3bf7334635fb410
+"cookie@npm:0.7.1":
+  version: 0.7.1
+  resolution: "cookie@npm:0.7.1"
+  checksum: cec5e425549b3650eb5c3498a9ba3cde0b9cd419e3b36e4b92739d30b4d89e0b678b98c1ddc209ce7cf958cd3215671fd6ac47aec21f10c2a0cc68abd399d8a7
   languageName: node
   linkType: hard
 
@@ -2578,16 +2578,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:4.21.0":
-  version: 4.21.0
-  resolution: "express@npm:4.21.0"
+"express@npm:4.21.1":
+  version: 4.21.1
+  resolution: "express@npm:4.21.1"
   dependencies:
     accepts: ~1.3.8
     array-flatten: 1.1.1
     body-parser: 1.20.3
     content-disposition: 0.5.4
     content-type: ~1.0.4
-    cookie: 0.6.0
+    cookie: 0.7.1
     cookie-signature: 1.0.6
     debug: 2.6.9
     depd: 2.0.0
@@ -2613,7 +2613,7 @@ __metadata:
     type-is: ~1.6.18
     utils-merge: 1.0.1
     vary: ~1.1.2
-  checksum: 1c5212993f665809c249bf00ab550b989d1365a5b9171cdfaa26d93ee2ef10cd8add520861ec8d5da74b3194d8374e1d9d53e85ef69b89fd9c4196b87045a5d4
+  checksum: 5ac2b26d8aeddda5564fc0907227d29c100f90c0ead2ead9d474dc5108e8fb306c2de2083c4e3ba326e0906466f2b73417dbac16961f4075ff9f03785fd940fe
   languageName: node
   linkType: hard
 
