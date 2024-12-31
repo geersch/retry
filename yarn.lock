@@ -1805,6 +1805,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ci-info@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "ci-info@npm:4.1.0"
+  checksum: 10/546628efd04e37da3182a58b6995a3313deb86ec7c8112e22ffb644317a61296b89bbfa128219e5bfcce43d9613a434ed89907ed8e752db947f7291e0405125f
+  languageName: node
+  linkType: hard
+
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -3058,6 +3065,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-ci@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "is-ci@npm:4.1.0"
+  dependencies:
+    ci-info: "npm:^4.1.0"
+  bin:
+    is-ci: bin.js
+  checksum: 10/f63a9e951262b9f4ccea73f47743efb1bfe87de84b5352dc02966c90bf61c2a9e9426a43ef53fdd18bd5f33616015b97bb5ae89251fb0f573e6cf7a01d036295
+  languageName: node
+  linkType: hard
+
 "is-extglob@npm:^2.1.1":
   version: 2.1.1
   resolution: "is-extglob@npm:2.1.1"
@@ -4004,15 +4022,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pinst@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "pinst@npm:3.0.0"
-  bin:
-    pinst: bin.js
-  checksum: 10/a75e4f7b5eeb9c76e7fd1b2d9854fcd38c304a3b1f9b563946a0f4357772c742222094e851f4c23d0bbdc4151af2d7875bb919c9ef8a9c4af77a02a73e8f72f0
-  languageName: node
-  linkType: hard
-
 "postcss@npm:^8.4.43":
   version: 8.4.49
   resolution: "postcss@npm:8.4.49"
@@ -4268,7 +4277,7 @@ __metadata:
     "@commitlint/cli": "npm:^19.6.1"
     "@commitlint/config-conventional": "npm:^19.6.0"
     husky: "npm:^9.1.7"
-    pinst: "npm:^3.0.0"
+    is-ci: "npm:^4.1.0"
   languageName: unknown
   linkType: soft
 
