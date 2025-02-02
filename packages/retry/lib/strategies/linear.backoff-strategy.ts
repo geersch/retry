@@ -1,5 +1,5 @@
-import { BackoffStrategyConfig } from './backoff-strategy-config';
-import { BackoffStrategy } from './backoff.strategy';
+import { BackoffStrategyConfig } from './backoff-strategy-config.js';
+import { BackoffStrategy } from './backoff.strategy.js';
 
 export class LinearBackoffStrategy implements BackoffStrategy {
   private readonly baseDelay: number;
