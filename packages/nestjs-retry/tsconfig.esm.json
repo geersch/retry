@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.package.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "outDir": "./dist/esm"
+  },
+  "references": [{ "path": "../retry/tsconfig.esm.json" }]
+}

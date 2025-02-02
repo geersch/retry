@@ -2,9 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "dist",
-    "rootDir": "lib"
+    "rootDir": "lib",
+    "declarationDir": "./dist/types"
   },
-  "include": ["lib/**/*"],
-  "references": [{ "path": "../retry/tsconfig.package.json" }]
+  "include": ["lib/**/*"]
 }

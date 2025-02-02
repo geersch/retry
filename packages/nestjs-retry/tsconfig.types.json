@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.package.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true
+  }
+}
