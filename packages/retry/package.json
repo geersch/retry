@@ -8,17 +8,30 @@
   },
   "author": "Christophe Geers",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "!dist/**/*.tsbuildinfo",
+    "lib/**/**"
   ],
+  "main": "./dist/cjs/index.js",
+  "type": "module",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
   "scripts": {
-    "clean": "rimraf -rf dist && rimraf coverage && rimraf junit.xml && rimraf tsconfig.package.tsbuildinfo",
-    "build": "tsc -b tsconfig.package.json",
+    "clean": "rimraf -rf dist && rimraf coverage && rimraf junit.xml",
+    "build": "tsc -b tsconfig.cjs.json tsconfig.esm.json tsconfig.types.json",
     "lint": "eslint \"lib/**/*.ts\" \"tests/**/*.ts\"",
     "format": "prettier \"lib/**/*.ts\" \"tests/**/*.ts\"",
-    "prepack": "yarn clean && tsc -b tsconfig.package.json",
+    "prepack": "yarn clean && yarn build && yarn prepack:cjs && yarn prepack:esm",
+    "prepack:cjs": "echo \"{ \\\"type\\\": \\\"commonjs\\\" }\" > ./dist/cjs/package.json",
+    "prepack:esm": "echo \"{ \\\"type\\\": \\\"module\\\" }\" > ./dist/esm/package.json",
     "test": "vitest"
   },
   "keywords": [

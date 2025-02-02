@@ -1,6 +1,6 @@
-import { BackoffStrategyConfig } from './backoff-strategy-config';
-import { BackoffStrategy } from './backoff.strategy';
-import { randomBetween } from './utils';
+import { BackoffStrategyConfig } from './backoff-strategy-config.js';
+import { BackoffStrategy } from './backoff.strategy.js';
+import { randomBetween } from './utils.js';
 
 export class EqualJitterBackoffStrategy implements BackoffStrategy {
   private readonly baseDelay: number;

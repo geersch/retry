@@ -1,2 +1,2 @@
-export * from './retry';
-export * from './strategies';
+export * from './retry.js';
+export * from './strategies/index.js';

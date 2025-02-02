@@ -1,5 +1,5 @@
-import { BackoffStrategyConfig } from './backoff-strategy-config';
-import { BackoffStrategy } from './backoff.strategy';
+import { BackoffStrategyConfig } from './backoff-strategy-config.js';
+import { BackoffStrategy } from './backoff.strategy.js';
 
 const rpScalingFactor = 1 / 1.4;
 

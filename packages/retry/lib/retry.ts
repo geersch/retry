@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defer, firstValueFrom, Observable, retry as retryOperator, tap, throwError, timer } from 'rxjs';
-import { BackoffStrategy } from './strategies';
+import { BackoffStrategy } from './strategies/backoff.strategy.js';
 
 type Type<T = any> = new (...args: any[]) => T;
 
