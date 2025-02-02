@@ -1,14 +1,14 @@
 import { defineConfig } from 'vitest/config';
 
 // Are we debugging?
-const timeout = !!process.env.VITEST_VSCODE ? 600_000 : 5000;
+const timeout = process.env.VITEST_VSCODE ? 600_000 : 5000;
 
 export default defineConfig({
   test: {
     globals: true,
     root: './',
     include: ['**/*.spec.ts'],
-    reporters: 'basic',
+    reporters: [['default', { summary: false }]],
     isolate: false,
     poolOptions: {
       threads: {
