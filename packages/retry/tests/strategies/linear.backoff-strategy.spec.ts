@@ -1,4 +1,4 @@
-import { LinearBackoffStrategy } from '../../lib/strategies';
+import { LinearBackoffStrategy } from '../../lib/strategies/linear.backoff-strategy.js';
 
 describe('LinearBackoffStrategy', () => {
   it('should calculate the delay', () => {

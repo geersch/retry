@@ -1,4 +1,4 @@
-import { FixedBackoffStrategy } from '../../lib/strategies';
+import { FixedBackoffStrategy } from '../../lib/strategies/fixed.backoff-strategy.js';
 
 describe('FixedBackoffStrategy', () => {
   it('should calculate the delay', () => {

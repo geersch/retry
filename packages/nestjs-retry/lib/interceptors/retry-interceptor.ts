@@ -1,5 +1,11 @@
-import { BackoffStrategy, EqualJitterBackoffStrategy, passRetryOperatorToPipe, RetryOptions } from '@geersch/retry';
-import { CallHandler, ExecutionContext, NestInterceptor, Optional, Type } from '@nestjs/common';
+import {
+  type BackoffStrategy,
+  EqualJitterBackoffStrategy,
+  passRetryOperatorToPipe,
+  type RetryOptions,
+} from '@geersch/retry';
+import type { CallHandler, ExecutionContext, NestInterceptor, Type } from '@nestjs/common';
+import { Optional } from '@nestjs/common';
 import { tap } from 'rxjs';
 
 export class RetryInterceptor implements NestInterceptor {

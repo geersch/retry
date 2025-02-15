@@ -1,1 +1,1 @@
-export * from './retry-interceptor';
+export * from './retry-interceptor.js';

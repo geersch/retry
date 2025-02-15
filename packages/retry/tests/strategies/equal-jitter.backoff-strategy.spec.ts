@@ -1,4 +1,4 @@
-import { EqualJitterBackoffStrategy } from '../../lib/strategies';
+import { EqualJitterBackoffStrategy } from '../../lib/strategies/equal-jitter.backoff-strategy.js';
 
 // The delay of the EqualJitterBackOffStrategy is randomized.We can't assert that the output is what we expect it to be.
 // Instead, we'll assert that the calculated delay obeys some constraints.

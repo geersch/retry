@@ -1,4 +1,4 @@
-import { FibonacciBackoffStrategy } from '../../lib/strategies';
+import { FibonacciBackoffStrategy } from '../../lib/strategies/fibonacci.backoff-strategy.js';
 
 describe('FibonacciBackoffStrategy', () => {
   beforeEach(() => {
