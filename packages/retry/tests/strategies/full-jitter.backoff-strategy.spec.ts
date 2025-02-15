@@ -1,4 +1,4 @@
-import { FullJitterBackOffStrategy } from '../../lib/strategies';
+import { FullJitterBackOffStrategy } from '../../lib/strategies/full-jitter.backoff-strategy.js';
 
 // The delay of the FullJitterBackOffStrategy is randomized.We can't assert that the output is what we expect it to be.
 // Instead, we'll assert that the calculated delay obeys some constraints.

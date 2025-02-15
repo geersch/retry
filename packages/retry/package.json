@@ -8,16 +8,21 @@
   },
   "author": "Christophe Geers",
   "license": "MIT",
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "lib/**/**"
   ],
   "scripts": {
     "clean": "rimraf -rf dist && rimraf coverage && rimraf junit.xml && rimraf tsconfig.package.tsbuildinfo",
     "build": "tsc -b tsconfig.package.json",
-    "lint": "eslint \"lib/**/*.ts\" \"tests/**/*.ts\"",
-    "format": "prettier \"lib/**/*.ts\" \"tests/**/*.ts\"",
+    "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
+    "lint": "eslint \"lib/**/*.ts\" \"tests/**/*.ts\" --fix",
+    "lint:check": "eslint \"lib/**/*.ts\" \"tests/**/*.ts\"",
+    "format": "prettier --write \"lib/**/*.ts\" \"tests/**/*.ts\"",
+    "format:check": "prettier --check \"lib/**/*.ts\" \"tests/**/*.ts\"",
     "prepack": "yarn clean && tsc -b tsconfig.package.json",
     "test": "vitest"
   },
@@ -35,20 +40,21 @@
     "rxjs": "^7.0.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.3",
     "@eslint/js": "^9.17.0",
     "@types/eslint__js": "^8.42.3",
-    "@types/node": "22.5.4",
+    "@types/node": "^22.13.4",
     "@types/supertest": "^6.0.2",
     "@vitest/coverage-v8": "^3.0.5",
     "eslint": "^9.17.0",
     "globals": "^15.14.0",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.1",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.0.1",
     "rxjs": "^7.0.0",
     "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2",
+    "typescript": "^5.7.3",
     "typescript-eslint": "^8.19.0",
     "vitest": "^3.0.5"
   }

@@ -1,10 +1,10 @@
 import {
-  BackoffStrategy,
-  BackoffStrategyConfig,
+  type BackoffStrategy,
+  type BackoffStrategyConfig,
   ExponentialBackoffStrategy,
   FixedBackoffStrategy,
   retry,
-} from '../lib';
+} from '../lib/index.js';
 
 const timerSpy = vi.fn();
 

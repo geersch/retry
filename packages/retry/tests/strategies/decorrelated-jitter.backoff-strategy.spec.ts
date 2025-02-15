@@ -1,4 +1,4 @@
-import { DecorrelatedJitterBackoffStrategy } from '../../lib/strategies';
+import { DecorrelatedJitterBackoffStrategy } from '../../lib/strategies/decorrelated-jitter.backoff-strategy.js';
 
 describe('DecorrelatedJitterBackoffStrategy', () => {
   beforeEach(() => {

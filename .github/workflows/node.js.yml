@@ -32,9 +32,11 @@ jobs:
         cache-dependency-path: 'yarn.lock'
     - run: yarn install --immutable
     - name: Lint the code
-      run: yarn lint:ci 
+      run: yarn lint:check 
     - name: Check code formatting
-      run: yarn format:ci
+      run: yarn format:check
+    - name: Check exports
+      run: yarn check-exports
     - name: Build
       run: yarn build
     - name: Run tests for @geersch/retry
