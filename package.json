@@ -27,8 +27,8 @@
   "homepage": "https://github.com/geersch/retry#readme",
   "packageManager": "yarn@4.9.1",
   "devDependencies": {
-    "@commitlint/cli": "^19.6.1",
-    "@commitlint/config-conventional": "^19.6.0",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0"
   }
