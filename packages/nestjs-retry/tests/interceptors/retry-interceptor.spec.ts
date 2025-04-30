@@ -1,8 +1,9 @@
 import { FixedBackoffStrategy } from '@geersch/retry';
-import { Controller, Get, Headers, INestApplication, UseInterceptors } from '@nestjs/common';
+import type { INestApplication } from '@nestjs/common';
+import { Controller, Get, Headers, UseInterceptors } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
-import { RetryInterceptor } from '../../lib';
+import { RetryInterceptor } from '../../lib/index.js';
 
 const timerSpy = vi.fn();
 const headerSpy = vi.fn();

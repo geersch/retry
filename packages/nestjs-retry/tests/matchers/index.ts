@@ -1,1 +1,1 @@
-export { toBeBetween } from './to-be-between';
+export { toBeBetween } from './to-be-between.js';

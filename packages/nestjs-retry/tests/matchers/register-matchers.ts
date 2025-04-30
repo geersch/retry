@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import { expect } from 'vitest';
-import * as matchers from '.';
+import * as matchers from './index.js';
 
 expect.extend(matchers);
 

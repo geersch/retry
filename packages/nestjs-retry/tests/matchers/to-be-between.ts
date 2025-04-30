@@ -1,4 +1,4 @@
-import { CustomMatcher, MatcherResult } from './types';
+import type { CustomMatcher, MatcherResult } from './types.js';
 
 export const toBeBetween: CustomMatcher = function (actual: number, min: number, max: number): MatcherResult {
   if (typeof actual !== 'number' || typeof min !== 'number' || typeof max !== 'number') {
