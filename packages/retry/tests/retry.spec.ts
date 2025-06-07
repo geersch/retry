@@ -164,11 +164,12 @@ describe('retry', () => {
   it('should not retry if the error is unrecoverable (unrecoverableErrors)', async () => {
     let attempts = 0;
 
-    const unrecoverableErrors = [RecoverableError, RecoverableError, UnrecoverableError];
+    const errorsToBeThrown = [RecoverableError, RecoverableError, UnrecoverableError];
 
     async function operation(): Promise<void> {
       attempts += 1;
-      throw new unrecoverableErrors[attempts - 1]('Oops!');
+      const errorType = errorsToBeThrown[attempts - 1] ?? Error;
+      throw new errorType('Oops!');
     }
 
     await expect(
@@ -182,11 +183,12 @@ describe('retry', () => {
   it('should not retry if the error is unrecoverable (abortRetry)', async () => {
     let attempts = 0;
 
-    const unrecoverableErrors = [RecoverableError, RecoverableError, UnrecoverableError];
+    const errorsToBeThrown = [RecoverableError, RecoverableError, UnrecoverableError];
 
     async function operation(): Promise<void> {
       attempts += 1;
-      throw new unrecoverableErrors[attempts - 1]('Oops!');
+      const errorType = errorsToBeThrown[attempts - 1] ?? Error;
+      throw new errorType('Oops!');
     }
 
     await expect(
@@ -206,7 +208,8 @@ describe('retry', () => {
 
     async function operation(): Promise<void> {
       attempts++;
-      throw new errorsToBeThrown[attempts - 1]('Oops!');
+      const errorType = errorsToBeThrown[attempts - 1] ?? Error;
+      throw new errorType('Oops!');
     }
 
     await expect(
@@ -233,7 +236,8 @@ describe('retry', () => {
 
     async function operation(): Promise<void> {
       attempts++;
-      throw new errorsToBeThrown[attempts - 1]('Oops!');
+      const errorType = errorsToBeThrown[attempts - 1] ?? Error;
+      throw new errorType('Oops!');
     }
 
     await expect(

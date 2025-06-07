@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defer, firstValueFrom, Observable, retry as retryOperator, tap, throwError, timer } from 'rxjs';
 import type { BackoffStrategy } from './strategies/backoff.strategy.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Type<T = any> = new (...args: unknown[]) => T;
+type Type<T = any> = new (...args: any[]) => T;
 
-export type ErrorConstructor = new (...args: unknown[]) => Error;
+export type ErrorConstructor = new (...args: any[]) => Error;
 
 /**
  * Configuration options for retry behavior
@@ -16,7 +16,7 @@ export interface RetryOptions {
    * @param retryCount - The current retry attempt number (1-based)
    * @returns true to abort retries, false to continue
    */
-  abortRetry?: (error: unknown, retryCount: number) => boolean;
+  abortRetry?: (error: any, retryCount: number) => boolean;
 
   /**
    * Maximum delay between retry attempts in milliseconds
@@ -93,7 +93,7 @@ export function passRetryOperatorToPipe<T>(
   return observable.pipe(
     retryOperator({
       count: maxRetries,
-      delay: (error: unknown, retryCount: number) => {
+      delay: (error: any, retryCount: number) => {
         const isUnrecoverable = unrecoverableErrors.some((errorConstructor) => error instanceof errorConstructor);
         if (isUnrecoverable || (abortRetry?.(error, retryCount) ?? false)) {
           return throwError(() => error);
