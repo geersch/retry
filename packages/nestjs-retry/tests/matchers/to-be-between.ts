@@ -1,6 +1,6 @@
-import type { CustomMatcher, MatcherResult } from './types.js';
+import type { ExpectationResult, RawMatcherFn } from '@vitest/expect';
 
-export const toBeBetween: CustomMatcher = function (actual: number, min: number, max: number): MatcherResult {
+export const toBeBetween: RawMatcherFn = function (actual: number, min: number, max: number): ExpectationResult {
   if (typeof actual !== 'number' || typeof min !== 'number' || typeof max !== 'number') {
     throw new Error('These must be of type number!');
   }

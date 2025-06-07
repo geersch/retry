@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-import { expect } from 'vitest';
-import * as matchers from './index.js';
-
-expect.extend(matchers);
+import 'vitest';
 
 interface CustomMatchers<R = unknown> {
   toBeBetween: (min: number, max: number) => R;
 }
 
+// https://vitest.dev/guide/extending-matchers
 declare module 'vitest' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  interface Assertion<T = any> extends CustomMatchers<T> {}
-  interface AsymmetricMatchersContaining extends CustomMatchers {}
+  interface Matchers<T = any> extends CustomMatchers<T> {}
 }

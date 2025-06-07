@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import swc from 'unplugin-swc';
 import { defineConfig, mergeConfig } from 'vitest/config';
-import sharedVitestConfig from '../../vitest.shared';
+import sharedVitestConfig from '../../vitest.shared.js';
 
 const unbundledState = resolve(__dirname, '../retry/lib/index');
 
@@ -10,7 +10,7 @@ export default defineConfig(() =>
     sharedVitestConfig,
     defineConfig({
       test: {
-        setupFiles: ['./tests/matchers/register-matchers.ts'],
+        setupFiles: ['./tests/setup.ts'],
         alias: {
           '@geersch/retry': unbundledState,
         },
