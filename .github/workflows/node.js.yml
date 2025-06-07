@@ -41,7 +41,7 @@ jobs:
     - name: Check exports
       run: yarn check-exports
     - name: Build
-      run: yarn build
+      run: yarn build:check
     - name: Run tests for @geersch/retry
       working-directory: packages/retry
       run: yarn test --coverage --reporter=default --reporter=junit --outputFile=./junit.xml

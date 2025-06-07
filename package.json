@@ -12,6 +12,7 @@
   "type": "module",
   "scripts": {
     "build": "FORCE_COLOR=true yarn workspaces foreach --all run build",
+    "build:check": "FORCE_COLOR=true yarn workspaces foreach --all run build:check",
     "check-exports": "FORCE_COLOR=true yarn workspaces foreach --all run check-exports",
     "clean": "FORCE_COLOR=true yarn workspaces foreach --all run clean",
     "format": "FORCE_COLOR=true yarn workspaces foreach --all run format",

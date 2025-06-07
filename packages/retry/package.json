@@ -18,6 +18,7 @@
   "scripts": {
     "clean": "rimraf -rf dist && rimraf coverage && rimraf junit.xml && rimraf tsconfig.package.tsbuildinfo",
     "build": "tsc -b tsconfig.package.json",
+    "build:check": "tsc",
     "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
     "lint": "eslint \"lib/**/*.ts\" \"tests/**/*.ts\" --fix",
     "lint:check": "eslint \"lib/**/*.ts\" \"tests/**/*.ts\"",
