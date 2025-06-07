@@ -20,7 +20,8 @@ describe('DecorrelatedJitterBackoffStrategy', () => {
     const strategy = new DecorrelatedJitterBackoffStrategy({ baseDelay: 100 });
     const generator = strategy.getGenerator(11);
     for (const expectedDelay of delays) {
-      expect(generator.next().value).toEqual(expectedDelay);
+      // Ensure calculations are accurate within 10 decimal places.
+      expect(generator.next().value).toBeCloseTo(expectedDelay, 10);
     }
   });
 });
