@@ -176,7 +176,7 @@ describe('retry', () => {
       retry(operation, FixedBackoffStrategy, {
         unrecoverableErrors: [UnrecoverableError],
       }),
-    ).rejects.toThrowError(UnrecoverableError);
+    ).rejects.toThrow(UnrecoverableError);
     expect(attempts).toEqual(3);
   });
 
@@ -197,7 +197,7 @@ describe('retry', () => {
           return error instanceof UnrecoverableError;
         },
       }),
-    ).rejects.toThrowError(UnrecoverableError);
+    ).rejects.toThrow(UnrecoverableError);
     expect(attempts).toEqual(3);
   });
 
@@ -266,8 +266,8 @@ describe('retry', () => {
       return 'Good news everyone!';
     }
 
-    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrowError(TypeError);
-    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrowError(
+    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrow(TypeError);
+    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrow(
       /Expected 'scaleFactor' to be a positive number greater than zero, got -1./,
     );
   });

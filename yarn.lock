@@ -598,7 +598,9 @@ __metadata:
     "@types/node": "npm:^22.15.30"
     "@types/supertest": "npm:^6.0.3"
     "@vitest/coverage-v8": "npm:^3.2.2"
+    "@vitest/eslint-plugin": "npm:^1.2.1"
     eslint: "npm:^9.28.0"
+    globals: "npm:^16.2.0"
     prettier: "npm:^3.5.3"
     reflect-metadata: "npm:^0.2.2"
     rimraf: "npm:^6.0.1"
@@ -625,6 +627,7 @@ __metadata:
     "@types/node": "npm:^22.15.30"
     "@types/supertest": "npm:^6.0.3"
     "@vitest/coverage-v8": "npm:^3.2.2"
+    "@vitest/eslint-plugin": "npm:^1.2.1"
     eslint: "npm:^9.28.0"
     globals: "npm:^16.2.0"
     prettier: "npm:^3.5.3"
@@ -1480,7 +1483,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.33.1":
+"@typescript-eslint/utils@npm:8.33.1, @typescript-eslint/utils@npm:^8.24.0":
   version: 8.33.1
   resolution: "@typescript-eslint/utils@npm:8.33.1"
   dependencies:
@@ -1529,6 +1532,24 @@ __metadata:
     "@vitest/browser":
       optional: true
   checksum: 10/c1bf6e874e4c081a64e25c266ae345a029afd722851529804bd7975d0b253d49b15e15a2a2786ee05ce7b1df840f0904895107e9203a259096f075d42188deea
+  languageName: node
+  linkType: hard
+
+"@vitest/eslint-plugin@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@vitest/eslint-plugin@npm:1.2.1"
+  dependencies:
+    "@typescript-eslint/utils": "npm:^8.24.0"
+  peerDependencies:
+    eslint: ">= 8.57.0"
+    typescript: ">= 5.0.0"
+    vitest: "*"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+    vitest:
+      optional: true
+  checksum: 10/56dccf2154df3b15c36326c4a30cd933152d5192253e9f924f5c345a5777d4e9b9ef89d9135c059ed227b93916c499897532328c4539289b79dbcb43cfc32968
   languageName: node
   linkType: hard
 
