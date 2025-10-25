@@ -8,7 +8,7 @@ describe('FibonacciBackoffStrategy', () => {
 
   afterEach(() => {
     // Restore the original Math.random function
-    vi.spyOn(global.Math, 'random').mockRestore();
+    vi.spyOn(Math, 'random').mockRestore();
   });
 
   it('should calculate the delay', () => {
