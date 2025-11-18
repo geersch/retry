@@ -26,7 +26,7 @@
     "url": "https://github.com/geersch/retry/issues"
   },
   "homepage": "https://github.com/geersch/retry#readme",
-  "packageManager": "yarn@4.10.3",
+  "packageManager": "yarn@4.11.0",
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
