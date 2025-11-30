@@ -54,7 +54,9 @@ describe('retry', () => {
       throw new Error('Oops!');
     }
 
-    await expect(retry(operation, new FixedBackoffStrategy({ baseDelay: 1000 }), { maxRetries: 10 })).rejects.toThrow();
+    await expect(
+      retry(operation, new FixedBackoffStrategy({ baseDelay: 1000 }), { maxRetries: 10 }),
+    ).rejects.toThrowError();
 
     expect(attempts).toEqual(11);
   });
@@ -69,7 +71,7 @@ describe('retry', () => {
 
     await expect(
       retry(operation, new ExponentialBackoffStrategy({ baseDelay: 100 }), { maxRetries: 10, maxDelay: 5000 }),
-    ).rejects.toThrow();
+    ).rejects.toThrowError();
 
     expect(attempts).toEqual(11);
 
@@ -91,7 +93,7 @@ describe('retry', () => {
       throw new Error('Oops!');
     }
 
-    await expect(retry(operation, YieldTwoDelaysBackoffStrategy, { maxRetries: 3 })).rejects.toThrow(
+    await expect(retry(operation, YieldTwoDelaysBackoffStrategy, { maxRetries: 3 })).rejects.toThrowError(
       /The backoff strategy did not yield a delay for retry attempt 3./,
     );
   });
@@ -136,7 +138,9 @@ describe('retry', () => {
       throw new Error('Oops!');
     }
 
-    await expect(retry(operation, new FixedBackoffStrategy({ baseDelay: 50 }), { maxRetries: 10 })).rejects.toThrow();
+    await expect(
+      retry(operation, new FixedBackoffStrategy({ baseDelay: 50 }), { maxRetries: 10 }),
+    ).rejects.toThrowError();
     expect(attempts).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   });
 
@@ -150,7 +154,7 @@ describe('retry', () => {
 
     await expect(
       retry(operation, new FixedBackoffStrategy({ baseDelay: 100 }), { maxRetries: 5, scaleFactor: 0.5 }),
-    ).rejects.toThrow();
+    ).rejects.toThrowError();
 
     expect(timerSpy).toHaveBeenCalledTimes(5);
     expect(timerSpy).toHaveBeenNthCalledWith(1, 50);
@@ -176,7 +180,7 @@ describe('retry', () => {
       retry(operation, FixedBackoffStrategy, {
         unrecoverableErrors: [UnrecoverableError],
       }),
-    ).rejects.toThrow(UnrecoverableError);
+    ).rejects.toThrowError(UnrecoverableError);
     expect(attempts).toEqual(3);
   });
 
@@ -197,7 +201,7 @@ describe('retry', () => {
           return error instanceof UnrecoverableError;
         },
       }),
-    ).rejects.toThrow(UnrecoverableError);
+    ).rejects.toThrowError(UnrecoverableError);
     expect(attempts).toEqual(3);
   });
 
@@ -219,7 +223,7 @@ describe('retry', () => {
           return retryCount >= 4; // never reached
         },
       }),
-    ).rejects.toThrow(UnrecoverableError);
+    ).rejects.toThrowError(UnrecoverableError);
     expect(attempts).toEqual(2);
   });
 
@@ -247,7 +251,7 @@ describe('retry', () => {
           return retryCount >= 4;
         },
       }),
-    ).rejects.toThrow(RecoverableError);
+    ).rejects.toThrowError(RecoverableError);
     expect(attempts).toEqual(4);
   });
 
@@ -266,8 +270,8 @@ describe('retry', () => {
       return 'Good news everyone!';
     }
 
-    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrow(TypeError);
-    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrow(
+    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrowError(TypeError);
+    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrowError(
       /Expected 'scaleFactor' to be a positive number greater than zero, got -1./,
     );
   });

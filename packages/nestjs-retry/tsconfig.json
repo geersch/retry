@@ -6,7 +6,7 @@
     "outDir": "dist",
     "types": ["vitest/globals"]
   },
-  "include": ["lib/**/*", "tests/**/*"],
+  "include": ["lib/**/*", "tests/**/*", "../../tests/matchers/*.d.ts"],
   "exclude": ["node_modules"],
   "references": [
     {

@@ -42,26 +42,22 @@ jobs:
       run: yarn check-exports
     - name: Build
       run: yarn build:check
-    - name: Run tests for @geersch/retry
-      working-directory: packages/retry
-      run: yarn test --coverage --reporter=default --reporter=junit --outputFile=./junit.xml
-    - name: Run tests for @geersch/nestjs-retry
-      working-directory: packages/nestjs-retry
+    - name: Run tests
       run: yarn test --coverage --reporter=default --reporter=junit --outputFile=./junit.xml
     - name: Upload test result artifact
       uses: actions/upload-artifact@v4
       with:
         name: test-results-report-${{ matrix.node-version }}
-        path: packages/**/junit.xml
+        path: junit.xml
     - name: Upload test coverage artifact
       uses: actions/upload-artifact@v4
       with:
         name: test-coverage-report-${{ matrix.node-version }}
-        path: packages/**/coverage/**/*
+        path: coverage/**/*
     - name: Report unit test results
       uses: dorny/test-reporter@v1
       if: success() || failure()
       with:
         name: Test results (Node.js ${{ matrix.node-version}})
-        path: packages/**/junit.xml
+        path: junit.xml
         reporter: jest-junit

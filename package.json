@@ -19,7 +19,7 @@
     "format:check": "FORCE_COLOR=true yarn workspaces foreach --all run format:check --log-level error",
     "lint": "FORCE_COLOR=true yarn workspaces foreach --all run lint",
     "lint:check": "FORCE_COLOR=true yarn workspaces foreach --all run lint:check",
-    "test": "FORCE_COLOR=true yarn workspaces foreach --all run test run",
+    "test": "vitest",
     "postinstall": "is-ci || husky install"
   },
   "bugs": {
@@ -30,7 +30,11 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "@swc/core": "^1.15.3",
+    "@vitest/coverage-v8": "^4.0.14",
     "husky": "^9.1.7",
-    "is-ci": "^4.1.0"
+    "is-ci": "^4.1.0",
+    "unplugin-swc": "^1.5.9",
+    "vitest": "^4.0.14"
   }
 }
