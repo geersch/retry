@@ -48,6 +48,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['lib', 'src'],
+      exclude: ['index.ts'],
       reporter: ['text', 'json', 'html'],
     },
     include: ['**/*.spec.ts'],
