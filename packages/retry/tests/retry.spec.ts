@@ -5,20 +5,7 @@ import {
   FixedBackoffStrategy,
   retry,
 } from '../lib/index.js';
-
-const timerSpy = vi.fn();
-
-vi.mock('rxjs', async () => {
-  const originalModule = await vi.importActual<Record<string, unknown>>('rxjs');
-
-  return {
-    ...originalModule,
-    timer: (due: number) => {
-      timerSpy(due);
-      return Promise.resolve();
-    },
-  };
-});
+import * as rxjs from 'rxjs';
 
 export class YieldTwoDelaysBackoffStrategy implements BackoffStrategy {
   private readonly baseDelay: number;
@@ -38,12 +25,22 @@ class UnrecoverableError extends Error {}
 class RecoverableError extends Error {}
 
 describe('retry', () => {
+  let delays: number[] = [];
+
   beforeEach(() => {
-    timerSpy.mockClear();
+    vi.useFakeTimers();
+    delays = [];
+
+    const originalTimer = rxjs.timer;
+    vi.spyOn(rxjs, 'timer').mockImplementation((due) => {
+      delays.push(due as number);
+      return originalTimer(due);
+    });
   });
 
-  afterAll(() => {
-    timerSpy.mockRestore();
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.useRealTimers();
   });
 
   it('should retry until the maximum retries are exhausted', async () => {
@@ -54,9 +51,16 @@ describe('retry', () => {
       throw new Error('Oops!');
     }
 
-    await expect(
-      retry(operation, new FixedBackoffStrategy({ baseDelay: 1000 }), { maxRetries: 10 }),
-    ).rejects.toThrowError();
+    const promise = retry(operation, new FixedBackoffStrategy({ baseDelay: 1000 }), { maxRetries: 10 });
+
+    // Handle promise rejecting during timer advancement.
+    promise.catch(() => {
+      // Expected error
+    });
+
+    await vi.runAllTimersAsync();
+
+    await expect(promise).rejects.toThrowError();
 
     expect(attempts).toEqual(11);
   });
@@ -69,23 +73,32 @@ describe('retry', () => {
       throw new Error('Oops!');
     }
 
-    await expect(
-      retry(operation, new ExponentialBackoffStrategy({ baseDelay: 100 }), { maxRetries: 10, maxDelay: 5000 }),
-    ).rejects.toThrowError();
+    const promise = retry(operation, new ExponentialBackoffStrategy({ baseDelay: 100 }), {
+      maxRetries: 10,
+      maxDelay: 5000,
+    });
+
+    promise.catch(() => {
+      // Expected error
+    });
+
+    await vi.runAllTimersAsync();
+
+    await expect(promise).rejects.toThrowError();
 
     expect(attempts).toEqual(11);
 
-    expect(timerSpy).toHaveBeenCalledTimes(10);
-    expect(timerSpy).toHaveBeenNthCalledWith(1, 200);
-    expect(timerSpy).toHaveBeenNthCalledWith(2, 400);
-    expect(timerSpy).toHaveBeenNthCalledWith(3, 800);
-    expect(timerSpy).toHaveBeenNthCalledWith(4, 1600);
-    expect(timerSpy).toHaveBeenNthCalledWith(5, 3200);
-    expect(timerSpy).toHaveBeenNthCalledWith(6, 5000);
-    expect(timerSpy).toHaveBeenNthCalledWith(7, 5000);
-    expect(timerSpy).toHaveBeenNthCalledWith(8, 5000);
-    expect(timerSpy).toHaveBeenNthCalledWith(9, 5000);
-    expect(timerSpy).toHaveBeenNthCalledWith(10, 5000);
+    expect(delays).toHaveLength(10);
+    expect(delays[0]).toBe(200);
+    expect(delays[1]).toBe(400);
+    expect(delays[2]).toBe(800);
+    expect(delays[3]).toBe(1600);
+    expect(delays[4]).toBe(3200);
+    expect(delays[5]).toBe(5000);
+    expect(delays[6]).toBe(5000);
+    expect(delays[7]).toBe(5000);
+    expect(delays[8]).toBe(5000);
+    expect(delays[9]).toBe(5000);
   });
 
   it('should throw an error if the backoff strategy does not yield a delay', async () => {
@@ -93,9 +106,15 @@ describe('retry', () => {
       throw new Error('Oops!');
     }
 
-    await expect(retry(operation, YieldTwoDelaysBackoffStrategy, { maxRetries: 3 })).rejects.toThrowError(
-      /The backoff strategy did not yield a delay for retry attempt 3./,
-    );
+    const promise = retry(operation, YieldTwoDelaysBackoffStrategy, { maxRetries: 3 });
+
+    promise.catch(() => {
+      // Expected error
+    });
+
+    await vi.runAllTimersAsync();
+
+    await expect(promise).rejects.toThrowError(/The backoff strategy did not yield a delay for retry attempt 3./);
   });
 
   it('should return a value when the operation succeeds', async () => {
@@ -106,7 +125,11 @@ describe('retry', () => {
       return 'Good news everyone!';
     }
 
-    const value = await retry(operation, FixedBackoffStrategy);
+    const promise = retry(operation, FixedBackoffStrategy);
+
+    await vi.runAllTimersAsync();
+
+    const value = await promise;
 
     expect(value).toEqual('Good news everyone!');
     expect(attempts).toEqual(1);
@@ -124,7 +147,11 @@ describe('retry', () => {
       return 'Good news everyone!';
     }
 
-    const value = await retry(operation, FixedBackoffStrategy);
+    const promise = retry(operation, FixedBackoffStrategy);
+
+    await vi.runAllTimersAsync();
+
+    const value = await promise;
 
     expect(value).toEqual('Good news everyone!');
     expect(attempts).toEqual(6);
@@ -138,9 +165,15 @@ describe('retry', () => {
       throw new Error('Oops!');
     }
 
-    await expect(
-      retry(operation, new FixedBackoffStrategy({ baseDelay: 50 }), { maxRetries: 10 }),
-    ).rejects.toThrowError();
+    const promise = retry(operation, new FixedBackoffStrategy({ baseDelay: 50 }), { maxRetries: 10 });
+
+    promise.catch(() => {
+      // Expected error
+    });
+
+    await vi.runAllTimersAsync();
+
+    await expect(promise).rejects.toThrowError();
     expect(attempts).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   });
 
@@ -152,16 +185,25 @@ describe('retry', () => {
       throw new Error('Oops!');
     }
 
-    await expect(
-      retry(operation, new FixedBackoffStrategy({ baseDelay: 100 }), { maxRetries: 5, scaleFactor: 0.5 }),
-    ).rejects.toThrowError();
+    const promise = retry(operation, new FixedBackoffStrategy({ baseDelay: 100 }), {
+      maxRetries: 5,
+      scaleFactor: 0.5,
+    });
 
-    expect(timerSpy).toHaveBeenCalledTimes(5);
-    expect(timerSpy).toHaveBeenNthCalledWith(1, 50);
-    expect(timerSpy).toHaveBeenNthCalledWith(2, 50);
-    expect(timerSpy).toHaveBeenNthCalledWith(3, 50);
-    expect(timerSpy).toHaveBeenNthCalledWith(4, 50);
-    expect(timerSpy).toHaveBeenNthCalledWith(5, 50);
+    promise.catch(() => {
+      // Expected error
+    });
+
+    await vi.runAllTimersAsync();
+
+    await expect(promise).rejects.toThrowError();
+
+    expect(delays).toHaveLength(5);
+    expect(delays[0]).toBe(50);
+    expect(delays[1]).toBe(50);
+    expect(delays[2]).toBe(50);
+    expect(delays[3]).toBe(50);
+    expect(delays[4]).toBe(50);
     expect(attempts).toEqual(6);
   });
 
@@ -176,11 +218,17 @@ describe('retry', () => {
       throw new errorType('Oops!');
     }
 
-    await expect(
-      retry(operation, FixedBackoffStrategy, {
-        unrecoverableErrors: [UnrecoverableError],
-      }),
-    ).rejects.toThrowError(UnrecoverableError);
+    const promise = retry(operation, FixedBackoffStrategy, {
+      unrecoverableErrors: [UnrecoverableError],
+    });
+
+    promise.catch(() => {
+      // Expected error
+    });
+
+    await vi.runAllTimersAsync();
+
+    await expect(promise).rejects.toThrowError(UnrecoverableError);
     expect(attempts).toEqual(3);
   });
 
@@ -195,13 +243,19 @@ describe('retry', () => {
       throw new errorType('Oops!');
     }
 
-    await expect(
-      retry(operation, FixedBackoffStrategy, {
-        abortRetry: (error, _retryCount: number) => {
-          return error instanceof UnrecoverableError;
-        },
-      }),
-    ).rejects.toThrowError(UnrecoverableError);
+    const promise = retry(operation, FixedBackoffStrategy, {
+      abortRetry: (error, _retryCount: number) => {
+        return error instanceof UnrecoverableError;
+      },
+    });
+
+    promise.catch(() => {
+      // Expected error
+    });
+
+    await vi.runAllTimersAsync();
+
+    await expect(promise).rejects.toThrowError(UnrecoverableError);
     expect(attempts).toEqual(3);
   });
 
@@ -216,14 +270,20 @@ describe('retry', () => {
       throw new errorType('Oops!');
     }
 
-    await expect(
-      retry(operation, FixedBackoffStrategy, {
-        unrecoverableErrors: [UnrecoverableError],
-        abortRetry: (_error, retryCount: number) => {
-          return retryCount >= 4; // never reached
-        },
-      }),
-    ).rejects.toThrowError(UnrecoverableError);
+    const promise = retry(operation, FixedBackoffStrategy, {
+      unrecoverableErrors: [UnrecoverableError],
+      abortRetry: (_error, retryCount: number) => {
+        return retryCount >= 4; // never reached
+      },
+    });
+
+    promise.catch(() => {
+      // Expected error
+    });
+
+    await vi.runAllTimersAsync();
+
+    await expect(promise).rejects.toThrowError(UnrecoverableError);
     expect(attempts).toEqual(2);
   });
 
@@ -244,14 +304,20 @@ describe('retry', () => {
       throw new errorType('Oops!');
     }
 
-    await expect(
-      retry(operation, FixedBackoffStrategy, {
-        unrecoverableErrors: [UnrecoverableError],
-        abortRetry: (_error, retryCount: number) => {
-          return retryCount >= 4;
-        },
-      }),
-    ).rejects.toThrowError(RecoverableError);
+    const promise = retry(operation, FixedBackoffStrategy, {
+      unrecoverableErrors: [UnrecoverableError],
+      abortRetry: (_error, retryCount: number) => {
+        return retryCount >= 4;
+      },
+    });
+
+    promise.catch(() => {
+      // Expected error
+    });
+
+    await vi.runAllTimersAsync();
+
+    await expect(promise).rejects.toThrowError(RecoverableError);
     expect(attempts).toEqual(4);
   });
 
@@ -260,7 +326,11 @@ describe('retry', () => {
       return 'Good news everyone!';
     }
 
-    const value = await retry(operation, new FixedBackoffStrategy({ baseDelay: 50 }));
+    const promise = retry(operation, new FixedBackoffStrategy({ baseDelay: 50 }));
+
+    await vi.runAllTimersAsync();
+
+    const value = await promise;
 
     expect(value).toEqual('Good news everyone!');
   });

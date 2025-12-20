@@ -61,7 +61,43 @@ class UnrecoverableError extends Error {}
 export class CatsController {}
 ```
 
-The interceptor adds the `x-attempt` header to each retry, which contains the current attempt.
+### Using AbortSignal
+
+You can use the `signal` option to cancel retry attempts. The `signal` option accepts an `AbortSignal` instance or a factory function `() => AbortSignal | null`. When the interceptor processes a request, it uses the provided instance directly or invokes the factory function to create a signal for the retry operation.
+
+#### Shared Signal (Not Recommended)
+
+```ts
+@UseInterceptors(
+  new RetryInterceptor(new FixedBackoffStrategy({ baseDelay: 100 }), {
+    maxRetries: 10,
+    signal: AbortSignal.timeout(5000),
+  }),
+)
+export class CatsController {}
+```
+
+**Note:** Using a static `AbortSignal` instance means all requests to the endpoint will share the same signal. Once it times out or is aborted, it affects all subsequent requests.
+
+#### Signal Factory (Recommended)
+
+For HTTP endpoints, it's recommended to use a factory function. The interceptor will invoke this factory to create a fresh signal for each request:
+
+```ts
+@UseInterceptors(
+  new RetryInterceptor(new FixedBackoffStrategy({ baseDelay: 100 }), {
+    maxRetries: 10,
+    signal: () => AbortSignal.timeout(5000),
+  }),
+)
+export class CatsController {}
+```
+
+This ensures each HTTP request gets its own independent timeout, preventing one request's timeout from affecting others.
+
+### Headers
+
+The interceptor adds the `x-attempt` request header to each retry, which contains the current attempt.
 
 ```ts
 @Controller('cats')

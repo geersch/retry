@@ -1,24 +1,12 @@
-import { FixedBackoffStrategy } from '@geersch/retry';
+import { EqualJitterBackoffStrategy, FixedBackoffStrategy } from '@geersch/retry';
 import type { INestApplication } from '@nestjs/common';
 import { Controller, Get, Headers, UseInterceptors } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { RetryInterceptor } from '../../lib/index.js';
+import * as rxjs from 'rxjs';
 
-const timerSpy = vi.fn();
 const headerSpy = vi.fn();
-
-vi.mock('rxjs', async () => {
-  const originalModule = await vi.importActual<Record<string, unknown>>('rxjs');
-
-  return {
-    ...originalModule,
-    timer: (due: number) => {
-      timerSpy(due);
-      return Promise.resolve();
-    },
-  };
-});
 
 @Controller('retry')
 class TestController {
@@ -28,7 +16,7 @@ class TestController {
   private attempts4 = 0;
 
   @Get('/resource1')
-  @UseInterceptors(new RetryInterceptor(FixedBackoffStrategy))
+  @UseInterceptors(new RetryInterceptor(new FixedBackoffStrategy({ baseDelay: 10 })))
   get() {
     this.attempts1 += 1;
     if (this.attempts1 <= 5) {
@@ -39,7 +27,7 @@ class TestController {
   }
 
   @Get('/resource2')
-  @UseInterceptors(new RetryInterceptor(FixedBackoffStrategy, { scaleFactor: 2 }))
+  @UseInterceptors(new RetryInterceptor(new FixedBackoffStrategy({ baseDelay: 10 }), { scaleFactor: 0.5 }))
   getWithOptions() {
     this.attempts2 += 1;
     if (this.attempts2 <= 5) {
@@ -50,7 +38,7 @@ class TestController {
   }
 
   @Get('/resource3')
-  @UseInterceptors(RetryInterceptor)
+  @UseInterceptors(new RetryInterceptor(new EqualJitterBackoffStrategy({ baseDelay: 10 })))
   getWithDefaults() {
     this.attempts3 += 1;
     if (this.attempts3 <= 5) {
@@ -76,6 +64,7 @@ class TestController {
 
 describe('RetryInterceptor', () => {
   let app: INestApplication;
+  let delays: number[] = [];
 
   beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
@@ -86,13 +75,23 @@ describe('RetryInterceptor', () => {
   });
 
   afterAll(async () => {
-    timerSpy.mockRestore();
     await app.close();
   });
 
   beforeEach(() => {
-    timerSpy.mockClear();
+    delays = [];
+
+    const originalTimer = rxjs.timer;
+    vi.spyOn(rxjs, 'timer').mockImplementation((due) => {
+      delays.push(due as number);
+      return originalTimer(due);
+    });
+
     headerSpy.mockClear();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should retry the operation', async () => {
@@ -103,12 +102,12 @@ describe('RetryInterceptor', () => {
       filename: 'test.pdf',
       url: 'https://github.com/geersch/retry/test.pdf',
     });
-    expect(timerSpy).toHaveBeenCalledTimes(5);
-    expect(timerSpy).toHaveBeenNthCalledWith(1, 100);
-    expect(timerSpy).toHaveBeenNthCalledWith(2, 100);
-    expect(timerSpy).toHaveBeenNthCalledWith(3, 100);
-    expect(timerSpy).toHaveBeenNthCalledWith(4, 100);
-    expect(timerSpy).toHaveBeenNthCalledWith(5, 100);
+    expect(delays).toHaveLength(5);
+    expect(delays[0]).toBe(10);
+    expect(delays[1]).toBe(10);
+    expect(delays[2]).toBe(10);
+    expect(delays[3]).toBe(10);
+    expect(delays[4]).toBe(10);
   });
 
   it('should retry the operation using the specified retry options (scale factor 2)', async () => {
@@ -119,12 +118,12 @@ describe('RetryInterceptor', () => {
       filename: 'test.pdf',
       url: 'https://github.com/geersch/retry/test.pdf',
     });
-    expect(timerSpy).toHaveBeenCalledTimes(5);
-    expect(timerSpy).toHaveBeenNthCalledWith(1, 200);
-    expect(timerSpy).toHaveBeenNthCalledWith(2, 200);
-    expect(timerSpy).toHaveBeenNthCalledWith(3, 200);
-    expect(timerSpy).toHaveBeenNthCalledWith(4, 200);
-    expect(timerSpy).toHaveBeenNthCalledWith(5, 200);
+    expect(delays).toHaveLength(5);
+    expect(delays[0]).toBe(5);
+    expect(delays[1]).toBe(5);
+    expect(delays[2]).toBe(5);
+    expect(delays[3]).toBe(5);
+    expect(delays[4]).toBe(5);
   });
 
   it('should retry the operation using the default retry policy (EqualJitterBackOffStrategy)', async () => {
@@ -135,12 +134,12 @@ describe('RetryInterceptor', () => {
       filename: 'test.pdf',
       url: 'https://github.com/geersch/retry/test.pdf',
     });
-    expect(timerSpy).toHaveBeenCalledTimes(5);
-    expect(timerSpy).toHaveBeenNthCalledWith(1, expect.toBeBetween(100, 201));
-    expect(timerSpy).toHaveBeenNthCalledWith(2, expect.toBeBetween(200, 401));
-    expect(timerSpy).toHaveBeenNthCalledWith(3, expect.toBeBetween(400, 801));
-    expect(timerSpy).toHaveBeenNthCalledWith(4, expect.toBeBetween(800, 1601));
-    expect(timerSpy).toHaveBeenNthCalledWith(5, expect.toBeBetween(1600, 3201));
+    expect(delays).toHaveLength(5);
+    expect(delays[0]).toBeBetween(10, 21);
+    expect(delays[1]).toBeBetween(20, 41);
+    expect(delays[2]).toBeBetween(40, 81);
+    expect(delays[3]).toBeBetween(80, 161);
+    expect(delays[4]).toBeBetween(160, 321);
   });
 
   it('should pass the current attempt in the x-attempt header', async () => {

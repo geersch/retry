@@ -24,7 +24,7 @@
     "forceConsistentCasingInFileNames": true,
     "composite": true,
     "incremental": true,
-    "lib": ["es2022"],
+    "lib": ["es2022", "dom"],
     "removeComments": true
   }
 }

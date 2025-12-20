@@ -1,5 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { defer, firstValueFrom, Observable, retry as retryOperator, tap, throwError, timer } from 'rxjs';
+import {
+  defer,
+  firstValueFrom,
+  fromEvent,
+  Observable,
+  retry as retryOperator,
+  switchMap,
+  takeUntil,
+  tap,
+  throwError,
+  timer,
+} from 'rxjs';
 import type { BackoffStrategy } from './strategies/backoff.strategy.js';
 
 type Type<T = any> = new (...args: any[]) => T;
@@ -37,6 +48,9 @@ export interface RetryOptions {
    */
   scaleFactor?: number;
 
+  /** An AbortSignal to allow cancellation of retry attempts */
+  signal?: AbortSignal | (() => AbortSignal | null) | null;
+
   /**
    * Array of error constructors that should not trigger retries
    * If the thrown error is an instance of any of these constructors, retries will be aborted
@@ -72,6 +86,18 @@ export async function retry<T>(
 }
 
 /**
+ * Creates an observable timer that emits after a delay.
+ * Can be aborted by providing an AbortSignal.
+ */
+function createTimer(due: number): Observable<0>;
+function createTimer(due: number, signal: AbortSignal, error: any): Observable<0>;
+function createTimer(due: number, signal?: AbortSignal, error?: any): Observable<0> {
+  return signal
+    ? timer(due).pipe(takeUntil(fromEvent(signal, 'abort').pipe(switchMap(() => throwError(() => error)))))
+    : timer(due);
+}
+
+/**
  * Internal function that applies the retry operator to an observable
  * @param observable - The observable to apply retry logic to
  * @param backoffStrategy - The backoff strategy instance or constructor
@@ -81,7 +107,7 @@ export async function retry<T>(
 export function passRetryOperatorToPipe<T>(
   observable: Observable<T>,
   backoffStrategy: Type<BackoffStrategy> | BackoffStrategy,
-  { abortRetry, maxDelay = 30000, maxRetries = 5, scaleFactor = 1, unrecoverableErrors = [] }: RetryOptions,
+  { abortRetry, maxDelay = 30000, maxRetries = 5, scaleFactor = 1, signal, unrecoverableErrors = [] }: RetryOptions,
 ): Observable<T> {
   if (scaleFactor <= 0) {
     throw new TypeError(`Expected 'scaleFactor' to be a positive number greater than zero, got ${scaleFactor}.`);
@@ -90,10 +116,16 @@ export function passRetryOperatorToPipe<T>(
   const strategy = typeof backoffStrategy === 'function' ? new backoffStrategy() : backoffStrategy;
   const generator = strategy.getGenerator(maxRetries);
 
+  const abortSignal = typeof signal === 'function' ? signal() : signal;
+
   return observable.pipe(
     retryOperator({
       count: maxRetries,
       delay: (error: any, retryCount: number) => {
+        if (abortSignal?.aborted) {
+          return throwError(() => error);
+        }
+
         const isUnrecoverable = unrecoverableErrors.some((errorConstructor) => error instanceof errorConstructor);
         if (isUnrecoverable || (abortRetry?.(error, retryCount) ?? false)) {
           return throwError(() => error);
@@ -111,7 +143,7 @@ export function passRetryOperatorToPipe<T>(
           delay = maxDelay;
         }
 
-        return timer(delay);
+        return abortSignal ? createTimer(delay, abortSignal, error) : createTimer(delay);
       },
     }),
   );

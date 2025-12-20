@@ -39,9 +39,12 @@ If an error occurs during the `operation()`, it will be retried using the `Equal
 You can pass the type of backoff strategy to use, in which case it will be instantiated for you with its default base delay, or you can instantiate it yourself and override the base delay as needed.
 
 ```ts
-const result = await retry((attempt: number) => {
-  operation();
-}, new EqualJitterBackoffStrategy({ baseDelay: 200 }));
+const result = await retry(
+  (attempt: number) => {
+    operation();
+  },
+  new EqualJitterBackoffStrategy({ baseDelay: 200 }),
+);
 ```
 
 The current attempt is passed as a parameter to the retried function. The maximum number of retries can be passed to the backoff strategy. If the maximum is set to 5, then the function will be executed a maximum of 6 times (1 initial call + 5 retries).
@@ -82,9 +85,12 @@ const result = await retry((attempt: number) => {
 The default base delay of `100` ms can be overridden.
 
 ```ts
-const result = await retry((attempt: number) => {
-  operation();
-}, new DecorrelatedJitterBackoffStrategy({ baseDelay: 200 }));
+const result = await retry(
+  (attempt: number) => {
+    operation();
+  },
+  new DecorrelatedJitterBackoffStrategy({ baseDelay: 200 }),
+);
 ```
 
 ### EqualJitterBackoffStrategy
@@ -116,9 +122,12 @@ const result = await retry((attempt: number) => {
 The default base delay of `100` ms can be overridden.
 
 ```ts
-const result = await retry((attempt: number) => {
-  operation();
-}, new EqualJitterBackoffStrategy({ baseDelay: 200 }));
+const result = await retry(
+  (attempt: number) => {
+    operation();
+  },
+  new EqualJitterBackoffStrategy({ baseDelay: 200 }),
+);
 ```
 
 ### ExponentialBackoffStrategy
@@ -143,9 +152,12 @@ const result = await retry((attempt: number) => {
 The default base delay of `100` ms can be overridden.
 
 ```ts
-const result = await retry((attempt: number) => {
-  operation();
-}, new ExponentialBackoffStrategy({ baseDelay: 200 }));
+const result = await retry(
+  (attempt: number) => {
+    operation();
+  },
+  new ExponentialBackoffStrategy({ baseDelay: 200 }),
+);
 ```
 
 ### FibonacciBackoffStrategy
@@ -172,9 +184,12 @@ const result = await retry(async (attempt: number) => {
 The default base delay of `100` ms can be overridden.
 
 ```ts
-const result = await retry(async (attempt: number) => {
-  await operation();
-}, new FibonacciBackOffStrategy({ baseDelay: 200 }));
+const result = await retry(
+  async (attempt: number) => {
+    await operation();
+  },
+  new FibonacciBackOffStrategy({ baseDelay: 200 }),
+);
 ```
 
 ### FixedBackoffStrategy
@@ -190,9 +205,12 @@ const result = await retry((attempt: number) => {
 The default base delay of `100` ms can be overridden.
 
 ```ts
-const result = await retry((attempt: number) => {
-  operation();
-}, new FixedBackoffStrategyConfig({ baseDelay: 200 }));
+const result = await retry(
+  (attempt: number) => {
+    operation();
+  },
+  new FixedBackoffStrategyConfig({ baseDelay: 200 }),
+);
 ```
 
 ### FullJitterBackOffStrategy
@@ -224,9 +242,12 @@ const result = await retry((attempt: number) => {
 The default base delay of `100` ms can be overridden.
 
 ```ts
-const result = await retry((attempt: number) => {
-  operation();
-}, new FullJitterBackOffStrategy({ baseDelay: 200 }));
+const result = await retry(
+  (attempt: number) => {
+    operation();
+  },
+  new FullJitterBackOffStrategy({ baseDelay: 200 }),
+);
 ```
 
 ### LinearBackoffStrategy
@@ -249,9 +270,12 @@ const result = await retry((attempt: number) => {
 The default base delay of `100` ms can be overridden.
 
 ```ts
-const result = await retry((attempt: number) => {
-  operation();
-}, new LinearBackoffStrategy({ baseDelay: 200 }));
+const result = await retry(
+  (attempt: number) => {
+    operation();
+  },
+  new LinearBackoffStrategy({ baseDelay: 200 }),
+);
 ```
 
 ## Retry Options
@@ -344,6 +368,62 @@ const result = await retry(
   EqualJitterBackoffStrategy,
   {
     scaleFactor: 0.5,
+  },
+);
+```
+
+### signal
+
+An `AbortSignal` that allows you to cancel retry attempts. This is useful when you need to abort retries based on external events, timeouts, or user actions.
+
+The `signal` option accepts an `AbortSignal` instance or a factory function `() => AbortSignal | null`. When calling `retry()`, it uses the provided instance directly or invokes the factory function to create a signal for the retry operation.
+
+#### Using an AbortController
+
+```ts
+const abortController = new AbortController();
+
+setTimeout(() => abortController.abort(), 5000);
+
+const result = await retry(
+  (attempt: number) => {
+    operation();
+  },
+  EqualJitterBackoffStrategy,
+  {
+    signal: abortController.signal,
+  },
+);
+```
+
+#### Using AbortSignal.timeout()
+
+You can use `AbortSignal.timeout()` for a timeout-based cancellation:
+
+```ts
+const result = await retry(
+  (attempt: number) => {
+    operation();
+  },
+  EqualJitterBackoffStrategy,
+  {
+    signal: AbortSignal.timeout(5000),
+  },
+);
+```
+
+#### Using a Signal Factory Function
+
+You can provide a factory function that returns a new signal. The `retry()` function will invoke this factory to create a signal for the retry operation:
+
+```ts
+const result = await retry(
+  (attempt: number) => {
+    operation();
+  },
+  EqualJitterBackoffStrategy,
+  {
+    signal: () => AbortSignal.timeout(5000),
   },
 );
 ```
