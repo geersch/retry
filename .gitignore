@@ -113,3 +113,6 @@ dist
 
 # jest-junit
 junit.xml
+
+# macOS
+.DS_Store
