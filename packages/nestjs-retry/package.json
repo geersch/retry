@@ -42,15 +42,15 @@
     "@arethetypeswrong/cli": "^0.18.2",
     "@eslint/js": "^9.39.2",
     "@geersch/retry": "workspace:^",
-    "@nestjs/common": "^11.1.9",
-    "@nestjs/core": "^11.1.9",
-    "@nestjs/platform-express": "^11.1.9",
-    "@nestjs/testing": "^11.1.9",
+    "@nestjs/common": "^11.1.11",
+    "@nestjs/core": "^11.1.11",
+    "@nestjs/platform-express": "^11.1.11",
+    "@nestjs/testing": "^11.1.11",
     "@types/node": "^24.10.4",
     "@types/supertest": "^6.0.3",
-    "@vitest/eslint-plugin": "^1.5.4",
+    "@vitest/eslint-plugin": "^1.6.5",
     "eslint": "^9.39.2",
-    "globals": "^16.5.0",
+    "globals": "^17.0.0",
     "prettier": "^3.7.4",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.1.2",
@@ -58,7 +58,7 @@
     "supertest": "^7.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.50.0"
+    "typescript-eslint": "^8.51.0"
   },
   "dependencies": {
     "@geersch/retry": "workspace:^"
