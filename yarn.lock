@@ -610,7 +610,6 @@ __metadata:
     "@arethetypeswrong/cli": "npm:^0.18.2"
     "@eslint/js": "npm:^9.39.2"
     "@types/node": "npm:^24.10.9"
-    "@types/supertest": "npm:^6.0.3"
     "@vitest/eslint-plugin": "npm:^1.6.6"
     eslint: "npm:^9.39.2"
     globals: "npm:^17.0.0"
@@ -618,7 +617,6 @@ __metadata:
     reflect-metadata: "npm:^0.2.2"
     rimraf: "npm:^6.1.2"
     rxjs: "npm:^7.0.0"
-    supertest: "npm:^7.2.2"
     typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.53.0"
   languageName: unknown
