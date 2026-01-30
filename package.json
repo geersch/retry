@@ -30,11 +30,11 @@
   "devDependencies": {
     "@commitlint/cli": "^20.3.1",
     "@commitlint/config-conventional": "^20.3.1",
-    "@swc/core": "^1.15.8",
-    "@vitest/coverage-v8": "^4.0.17",
+    "@swc/core": "^1.15.11",
+    "@vitest/coverage-v8": "^4.0.18",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
     "unplugin-swc": "^1.5.9",
-    "vitest": "^4.0.17"
+    "vitest": "^4.0.18"
   }
 }
