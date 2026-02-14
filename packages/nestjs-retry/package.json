@@ -46,9 +46,9 @@
     "@nestjs/core": "^11.1.13",
     "@nestjs/platform-express": "^11.1.13",
     "@nestjs/testing": "^11.1.13",
-    "@types/node": "^24.10.10",
+    "@types/node": "^24.10.13",
     "@types/supertest": "^6.0.3",
-    "@vitest/eslint-plugin": "^1.6.6",
+    "@vitest/eslint-plugin": "^1.6.7",
     "eslint": "^9.39.2",
     "globals": "^17.3.0",
     "prettier": "^3.8.1",
@@ -57,7 +57,7 @@
     "rxjs": "^7.0.0",
     "supertest": "^7.2.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.54.0"
+    "typescript-eslint": "^8.55.0"
   },
   "dependencies": {
     "@geersch/retry": "workspace:^"
