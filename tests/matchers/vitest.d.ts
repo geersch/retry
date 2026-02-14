@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
+/* oxlint-disable no-empty-object-type */
 import 'vitest';
 
 interface CustomMatchers<R = unknown> {
@@ -7,6 +7,6 @@ interface CustomMatchers<R = unknown> {
 
 // https://vitest.dev/guide/extending-matchers
 declare module 'vitest' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line no-explicit-any
   interface Matchers<T = any> extends CustomMatchers<T> {}
 }

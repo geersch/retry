@@ -19,7 +19,7 @@ describe('retry with AbortSignal', () => {
       signal: abortController.signal,
     });
 
-    await expect(promise).rejects.toThrowError('Oops!');
+    await expect(promise).rejects.toThrow('Oops!');
     expect(attempts).toEqual(3);
   });
 
@@ -49,7 +49,7 @@ describe('retry with AbortSignal', () => {
         abortController.abort();
       }, timeout);
 
-      await expect(promise).rejects.toThrowError('Oops!');
+      await expect(promise).rejects.toThrow('Oops!');
 
       expect(attempts).toEqual(expectedAttempts);
     },
@@ -69,7 +69,7 @@ describe('retry with AbortSignal', () => {
       signal,
     });
 
-    await expect(promise).rejects.toThrowError('Oops!');
+    await expect(promise).rejects.toThrow('Oops!');
     expect(attempts).toEqual(3);
   });
 
@@ -88,7 +88,7 @@ describe('retry with AbortSignal', () => {
       signal: abortController.signal,
     });
 
-    await expect(promise).rejects.toThrowError('Oops!');
+    await expect(promise).rejects.toThrow('Oops!');
 
     expect(attempts).toEqual(1);
   });

@@ -1,5 +1,6 @@
 {
-  "editor.codeActionsOnSave": ["source.fixAll.eslint"],
+  "oxc.enable.oxlint": true,
+  "editor.codeActionsOnSave": ["source.fixAll.oxc"],
   "editor.formatOnSave": true,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -13,7 +14,6 @@
   "files.exclude": {
     "coverage": true,
     "**/*.tsbuildinfo": true,
-    "**/junit.xml": true,
-    "**/.eslintcache": true
+    "**/junit.xml": true
   }
 }

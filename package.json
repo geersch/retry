@@ -34,6 +34,7 @@
     "@vitest/coverage-v8": "^4.0.18",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
+    "oxlint": "^1.47.0",
     "unplugin-swc": "^1.5.9",
     "vitest": "^4.0.18"
   }

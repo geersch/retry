@@ -60,7 +60,7 @@ describe('retry', () => {
 
     await vi.runAllTimersAsync();
 
-    await expect(promise).rejects.toThrowError();
+    await expect(promise).rejects.toThrow();
 
     expect(attempts).toEqual(11);
   });
@@ -84,7 +84,7 @@ describe('retry', () => {
 
     await vi.runAllTimersAsync();
 
-    await expect(promise).rejects.toThrowError();
+    await expect(promise).rejects.toThrow();
 
     expect(attempts).toEqual(11);
 
@@ -114,7 +114,7 @@ describe('retry', () => {
 
     await vi.runAllTimersAsync();
 
-    await expect(promise).rejects.toThrowError(/The backoff strategy did not yield a delay for retry attempt 3./);
+    await expect(promise).rejects.toThrow(/The backoff strategy did not yield a delay for retry attempt 3./);
   });
 
   it('should return a value when the operation succeeds', async () => {
@@ -173,7 +173,7 @@ describe('retry', () => {
 
     await vi.runAllTimersAsync();
 
-    await expect(promise).rejects.toThrowError();
+    await expect(promise).rejects.toThrow();
     expect(attempts).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   });
 
@@ -196,7 +196,7 @@ describe('retry', () => {
 
     await vi.runAllTimersAsync();
 
-    await expect(promise).rejects.toThrowError();
+    await expect(promise).rejects.toThrow();
 
     expect(delays).toHaveLength(5);
     expect(delays[0]).toBe(50);
@@ -228,7 +228,7 @@ describe('retry', () => {
 
     await vi.runAllTimersAsync();
 
-    await expect(promise).rejects.toThrowError(UnrecoverableError);
+    await expect(promise).rejects.toThrow(UnrecoverableError);
     expect(attempts).toEqual(3);
   });
 
@@ -255,7 +255,7 @@ describe('retry', () => {
 
     await vi.runAllTimersAsync();
 
-    await expect(promise).rejects.toThrowError(UnrecoverableError);
+    await expect(promise).rejects.toThrow(UnrecoverableError);
     expect(attempts).toEqual(3);
   });
 
@@ -283,7 +283,7 @@ describe('retry', () => {
 
     await vi.runAllTimersAsync();
 
-    await expect(promise).rejects.toThrowError(UnrecoverableError);
+    await expect(promise).rejects.toThrow(UnrecoverableError);
     expect(attempts).toEqual(2);
   });
 
@@ -317,7 +317,7 @@ describe('retry', () => {
 
     await vi.runAllTimersAsync();
 
-    await expect(promise).rejects.toThrowError(RecoverableError);
+    await expect(promise).rejects.toThrow(RecoverableError);
     expect(attempts).toEqual(4);
   });
 
@@ -340,8 +340,8 @@ describe('retry', () => {
       return 'Good news everyone!';
     }
 
-    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrowError(TypeError);
-    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrowError(
+    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrow(TypeError);
+    await expect(retry(operation, FixedBackoffStrategy, { scaleFactor: -1 })).rejects.toThrow(
       /Expected 'scaleFactor' to be a positive number greater than zero, got -1./,
     );
   });

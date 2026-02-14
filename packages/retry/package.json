@@ -20,8 +20,8 @@
     "build": "tsc -b tsconfig.package.json",
     "build:check": "tsc",
     "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
-    "lint": "eslint \"lib/**/*.ts\" \"tests/**/*.ts\" --fix",
-    "lint:check": "eslint \"lib/**/*.ts\" \"tests/**/*.ts\"",
+    "lint": "oxlint --fix",
+    "lint:check": "oxlint",
     "format": "prettier --write \"lib/**/*.ts\" \"tests/**/*.ts\"",
     "format:check": "prettier --check \"lib/**/*.ts\" \"tests/**/*.ts\"",
     "prepack": "yarn clean && tsc -b tsconfig.package.json",
@@ -42,16 +42,11 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
-    "@eslint/js": "^9.39.2",
     "@types/node": "^24.10.13",
-    "@vitest/eslint-plugin": "^1.6.7",
-    "eslint": "^9.39.2",
-    "globals": "^17.3.0",
     "prettier": "^3.8.1",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.1.2",
     "rxjs": "^7.0.0",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.55.0"
+    "typescript": "^5.9.3"
   }
 }
