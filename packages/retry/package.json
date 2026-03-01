@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
-    "@types/node": "^24.10.13",
+    "@types/node": "^24.11.0",
     "prettier": "^3.8.1",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.1.3",
