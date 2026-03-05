@@ -28,13 +28,13 @@
   "homepage": "https://github.com/geersch/retry#readme",
   "packageManager": "yarn@4.12.0",
   "devDependencies": {
-    "@commitlint/cli": "^20.4.2",
-    "@commitlint/config-conventional": "^20.4.2",
+    "@commitlint/cli": "^20.4.3",
+    "@commitlint/config-conventional": "^20.4.3",
     "@swc/core": "^1.15.18",
     "@vitest/coverage-v8": "^4.0.18",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
-    "oxlint": "^1.50.0",
+    "oxlint": "^1.51.0",
     "unplugin-swc": "^1.5.9",
     "vitest": "^4.0.18"
   }
