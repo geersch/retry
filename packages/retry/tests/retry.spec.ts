@@ -1,10 +1,8 @@
-import {
-  type BackoffStrategy,
-  type BackoffStrategyConfig,
-  ExponentialBackoffStrategy,
-  FixedBackoffStrategy,
-  retry,
-} from '../lib/index.js';
+import type { BackoffStrategy } from '../lib/strategies/backoff.strategy.js';
+import type { BackoffStrategyConfig } from '../lib/strategies/backoff-strategy-config.js';
+import { ExponentialBackoffStrategy } from '../lib/strategies/exponential.backoff-strategy.js';
+import { FixedBackoffStrategy } from '../lib/strategies/fixed.backoff-strategy.js';
+import { retry } from '../lib/retry.js';
 import * as rxjs from 'rxjs';
 
 export class YieldTwoDelaysBackoffStrategy implements BackoffStrategy {

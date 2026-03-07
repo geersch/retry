@@ -3,7 +3,7 @@ import type { INestApplication } from '@nestjs/common';
 import { Controller, Get, Headers, UseInterceptors } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
-import { RetryInterceptor } from '../../lib/index.js';
+import { RetryInterceptor } from '../../lib/interceptors/retry-interceptor.js';
 import * as rxjs from 'rxjs';
 
 const headerSpy = vi.fn();

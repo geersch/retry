@@ -1,4 +1,5 @@
-import { FixedBackoffStrategy, retry } from '../lib/index.js';
+import { FixedBackoffStrategy } from '../lib/strategies/fixed.backoff-strategy.js';
+import { retry } from '../lib/retry.js';
 
 describe('retry with AbortSignal', () => {
   it('should abort retry when signal is aborted during execution', async () => {
