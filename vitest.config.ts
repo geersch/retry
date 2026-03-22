@@ -1,4 +1,3 @@
-import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config';
 import { resolve } from 'node:path';
 
@@ -24,16 +23,6 @@ export default defineConfig({
           name: 'packages/nestjs-retry',
           root: 'packages/nestjs-retry',
         },
-        plugins: [
-          swc.vite({
-            module: { type: 'es6' },
-            jsc: {
-              transform: {
-                useDefineForClassFields: false,
-              },
-            },
-          }),
-        ],
       },
     ],
 
