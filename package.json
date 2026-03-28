@@ -30,10 +30,10 @@
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
-    "@vitest/coverage-v8": "^4.1.0",
+    "@vitest/coverage-v8": "^4.1.2",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
-    "oxlint": "^1.56.0",
-    "vitest": "^4.1.0"
+    "oxlint": "^1.57.0",
+    "vitest": "^4.1.2"
   }
 }
