@@ -35,5 +35,8 @@
     "is-ci": "^4.1.0",
     "oxlint": "^1.57.0",
     "vitest": "^4.1.2"
+  },
+  "resolutions": {
+    "path-to-regexp": "^8.4.0"
   }
 }
