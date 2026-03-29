@@ -1,4 +1,5 @@
 {
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
   "oxc.enable.oxlint": true,
   "editor.codeActionsOnSave": ["source.fixAll.oxc"],
   "editor.formatOnSave": true,

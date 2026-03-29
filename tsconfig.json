@@ -2,8 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "ES2022",
-    "allowJs": true,
+    "target": "es2024",
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "verbatimModuleSyntax": true,
@@ -20,11 +19,10 @@
     "declaration": true,
     "declarationMap": true,
 
-    "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
     "composite": true,
     "incremental": true,
-    "lib": ["es2022", "dom"],
+    "lib": ["es2024", "dom"],
     "removeComments": true
   }
 }
