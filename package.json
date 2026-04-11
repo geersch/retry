@@ -30,13 +30,10 @@
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
-    "@vitest/coverage-v8": "^4.1.2",
+    "@vitest/coverage-v8": "^4.1.4",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
-    "oxlint": "^1.57.0",
-    "vitest": "^4.1.2"
-  },
-  "resolutions": {
-    "path-to-regexp": "^8.4.0"
+    "oxlint": "^1.59.0",
+    "vitest": "^4.1.4"
   }
 }
