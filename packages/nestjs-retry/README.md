@@ -7,7 +7,7 @@ A [NestJS interceptor](https://docs.nestjs.com/interceptors) to easily apply the
 ## Installation
 
 ```sh
-$ yarn add @geersch/nestjs-retry
+yarn add @geersch/nestjs-retry
 ```
 
 ## Usage

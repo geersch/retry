@@ -17,15 +17,15 @@
   ],
   "scripts": {
     "clean": "rimraf -rf dist && rimraf coverage && rimraf junit.xml && rimraf tsconfig.package.tsbuildinfo",
-    "build": "tsc -b tsconfig.package.json",
-    "build:check": "tsc",
+    "build": "tsgo -b tsconfig.package.json",
+    "build:check": "tsgo",
     "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
     "lint": "oxlint --fix",
     "lint:check": "oxlint",
     "format": "prettier --write \"lib/**/*.ts\" \"tests/**/*.ts\"",
     "format:check": "prettier --check \"lib/**/*.ts\" \"tests/**/*.ts\"",
-    "prepack": "yarn clean && tsc -b tsconfig.package.json",
-    "test": "cd ../.. && yarn vitest --project packages/retry"
+    "prepack": "bun run clean && tsgo -b tsconfig.package.json",
+    "test": "cd ../.. && bun run vitest --project packages/retry"
   },
   "keywords": [
     "exponential",
@@ -42,10 +42,11 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
+    "@typescript/native-preview": "beta",
+    "typescript": "npm:@typescript/typescript6@^6.0.0",
     "prettier": "^3.8.3",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.1.3",
-    "rxjs": "^7.0.0",
-    "typescript": "^6.0.3"
+    "rxjs": "^7.0.0"
   }
 }

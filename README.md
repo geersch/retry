@@ -15,8 +15,8 @@ Please consult the `README` of these packages for more information.
 ## Installation
 
 ```sh
-$ yarn add @geersch/retry
-$ yarn add @geersch/nestjs-retry
+yarn add @geersch/retry
+yarn add @geersch/nestjs-retry
 ```
 
 ## Debugging

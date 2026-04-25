@@ -1,16 +1,18 @@
 {
-  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.experimental.useTsgo": true,
   "oxc.enable.oxlint": true,
-  "editor.codeActionsOnSave": ["source.fixAll.oxc"],
+  "editor.codeActionsOnSave": [
+    "source.fixAll.oxc"
+  ],
   "editor.formatOnSave": true,
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "files.exclude": {
     "coverage": true,

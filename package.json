@@ -11,22 +11,20 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "FORCE_COLOR=true yarn workspaces foreach --all run build",
-    "build:check": "FORCE_COLOR=true yarn workspaces foreach --all run build:check",
-    "check-exports": "FORCE_COLOR=true yarn workspaces foreach --all run check-exports",
-    "clean": "FORCE_COLOR=true yarn workspaces foreach --all run clean",
-    "format": "FORCE_COLOR=true yarn workspaces foreach --all run format",
-    "format:check": "FORCE_COLOR=true yarn workspaces foreach --all run format:check --log-level error",
-    "lint": "FORCE_COLOR=true yarn workspaces foreach --all run lint",
-    "lint:check": "FORCE_COLOR=true yarn workspaces foreach --all run lint:check",
-    "test": "vitest",
-    "postinstall": "is-ci || husky install"
+    "build": "FORCE_COLOR=true bun run --filter '*' build",
+    "build:check": "FORCE_COLOR=true bun run --filter '*' build:check",
+    "check-exports": "FORCE_COLOR=true bun run --filter '*' check-exports",
+    "clean": "FORCE_COLOR=true bun run --filter '*' clean",
+    "format": "FORCE_COLOR=true bun run --filter '*' format",
+    "format:check": "FORCE_COLOR=true bun run --filter '*' format:check",
+    "lint": "FORCE_COLOR=true bun run --filter '*' lint",
+    "lint:check": "FORCE_COLOR=true bun run --filter '*' lint:check",
+    "postinstall": "is-ci || husky"
   },
   "bugs": {
     "url": "https://github.com/geersch/retry/issues"
   },
   "homepage": "https://github.com/geersch/retry#readme",
-  "packageManager": "yarn@4.14.1",
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",

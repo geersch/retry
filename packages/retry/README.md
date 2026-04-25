@@ -7,7 +7,7 @@ Retry utility function supporting exponential backoff powered by [RxJS](https://
 ## Installation
 
 ```sh
-$ yarn add @geersch/retry
+yarn add @geersch/retry
 ```
 
 ## Usage
