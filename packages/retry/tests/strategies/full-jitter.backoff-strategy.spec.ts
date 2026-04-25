@@ -6,7 +6,7 @@ import { FullJitterBackOffStrategy } from '../../lib/strategies/full-jitter.back
 describe('FullJitterBackOffStrategy', () => {
   beforeEach(() => {
     // Seed the random number generator to get predictable results
-    Math.random = vi.fn().mockReturnValue(0.5);
+    Math.random = vi.fn<() => number>().mockReturnValue(0.5);
   });
 
   afterEach(() => {

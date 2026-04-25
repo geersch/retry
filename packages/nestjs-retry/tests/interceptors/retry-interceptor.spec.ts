@@ -6,7 +6,7 @@ import request from 'supertest';
 import { RetryInterceptor } from '../../lib/interceptors/retry-interceptor.js';
 import * as rxjs from 'rxjs';
 
-const headerSpy = vi.fn();
+const headerSpy = vi.fn<(header: number) => void>();
 
 @Controller('retry')
 class TestController {
