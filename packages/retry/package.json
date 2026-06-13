@@ -20,7 +20,6 @@
     "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
     "check-types": "tsgo --noEmit",
     "clean": "rimraf dist coverage junit.xml tsconfig.package.tsbuildinfo",
-    "prepack": "bun run clean && tsgo -b tsconfig.package.json",
     "test": "vitest run"
   },
   "keywords": [
