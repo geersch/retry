@@ -16,46 +16,42 @@
     "lib/**/**"
   ],
   "scripts": {
-    "clean": "rimraf -rf dist && rimraf coverage && rimraf junit.xml && rimraf tsconfig.package.tsbuildinfo",
     "build": "tsgo -b tsconfig.package.json",
-    "build:check": "tsgo",
     "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
-    "lint": "oxlint --fix",
-    "lint:check": "oxlint",
-    "format": "prettier --write \"lib/**/*.ts\" \"tests/**/*.ts\"",
-    "format:check": "prettier --check \"lib/**/*.ts\" \"tests/**/*.ts\"",
+    "check-types": "tsgo -b tsconfig.json",
+    "clean": "rimraf dist coverage junit.xml tsconfig.package.tsbuildinfo",
     "prepack": "bun run clean && tsgo -b tsconfig.package.json",
-    "test": "cd ../.. && bun run vitest --project packages/nestjs-retry"
+    "test": "vitest run"
   },
   "keywords": [
     "exponential",
     "backoff",
     "jitter",
-    "backoff",
     "retry"
   ],
   "bugs": {
     "url": "https://github.com/geersch/retry/issues"
   },
   "homepage": "https://github.com/geersch/retry#readme",
+  "dependencies": {
+    "@geersch/retry": "workspace:^"
+  },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.2",
+    "@arethetypeswrong/cli": "catalog:",
     "@geersch/retry": "workspace:^",
+    "@geersch/typescript-config": "workspace:*",
+    "@geersch/vitest-config": "workspace:*",
     "@nestjs/common": "^11.1.19",
     "@nestjs/core": "^11.1.19",
     "@nestjs/platform-express": "^11.1.19",
     "@nestjs/testing": "^11.1.19",
     "@types/supertest": "^7.2.0",
-    "@typescript/native-preview": "beta",
-    "typescript": "npm:@typescript/typescript6@^6.0.0",
-    "prettier": "^3.8.3",
-    "reflect-metadata": "^0.2.2",
-    "rimraf": "^6.1.3",
-    "rxjs": "^7.0.0",
-    "supertest": "^7.2.2"
-  },
-  "dependencies": {
-    "@geersch/retry": "workspace:^"
+    "@typescript/native-preview": "catalog:",
+    "reflect-metadata": "catalog:",
+    "rimraf": "catalog:",
+    "rxjs": "catalog:",
+    "supertest": "^7.2.2",
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "@nestjs/common": "^9.0.0 || ^10.0.4 || ^11.0.0",
