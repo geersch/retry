@@ -1,3 +1,4 @@
+import { expect } from 'vitest';
 import { toBeBetween } from './matchers/to-be-between.js';
 
 // Centralized matcher registry

@@ -1,18 +1,16 @@
 {
   "js/ts.experimental.useTsgo": true,
   "oxc.enable.oxlint": true,
-  "editor.codeActionsOnSave": [
-    "source.fixAll.oxc"
-  ],
+  "editor.codeActionsOnSave": ["source.fixAll.oxc"],
   "editor.formatOnSave": true,
   "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[json]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "files.exclude": {
     "coverage": true,

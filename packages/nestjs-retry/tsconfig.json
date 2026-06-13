@@ -1,12 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "@geersch/typescript-config/base.json",
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "outDir": "dist",
     "types": ["vitest/globals"]
   },
-  "include": ["lib/**/*", "tests/**/*", "../../tests/matchers/*.d.ts"],
+  "include": ["lib/**/*", "tests/**/*", "../vitest-config/matchers/vitest.d.ts"],
   "exclude": ["node_modules"],
   "references": [
     {

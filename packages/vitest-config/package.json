@@ -1,0 +1,13 @@
+{
+  "name": "@geersch/vitest-config",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./base": "./base.ts",
+    "./matchers/*": "./matchers/*.ts",
+    "./register-matchers": "./register-matchers.ts"
+  },
+  "devDependencies": {
+    "vitest": "catalog:"
+  }
+}
