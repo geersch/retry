@@ -47,9 +47,13 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Publish @geersch/retry package
-        run: npm publish --provenance
+        run: |
+          bun pm pack --destination pack-output
+          npm publish ./pack-output/*.tgz --provenance
         working-directory: packages/retry
 
       - name: Publish @geersch/nestjs-retry package
-        run: npm publish --provenance
+        run: |
+          bun pm pack --destination pack-output
+          npm publish ./pack-output/*.tgz --provenance
         working-directory: packages/nestjs-retry

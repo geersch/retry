@@ -64,9 +64,11 @@
     },
     "packages/typescript-config": {
       "name": "@geersch/typescript-config",
+      "version": "1.0.0",
     },
     "packages/vitest-config": {
       "name": "@geersch/vitest-config",
+      "version": "1.0.0",
       "devDependencies": {
         "vitest": "catalog:",
       },
