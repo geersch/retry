@@ -18,7 +18,7 @@
     },
     "packages/nestjs-retry": {
       "name": "@geersch/nestjs-retry",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "dependencies": {
         "@geersch/retry": "workspace:^",
       },
@@ -47,7 +47,7 @@
     },
     "packages/retry": {
       "name": "@geersch/retry",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "dependencies": {
         "rxjs": "catalog:",
       },
