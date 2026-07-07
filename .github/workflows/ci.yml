@@ -36,28 +36,29 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.node-version }}-turbo-
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Quality check
-        run: bun run quality
+        run: pnpm run quality
 
       - name: Build
-        run: bun run build
+        run: pnpm run build
 
       - name: Check types
-        run: bun run check-types
+        run: pnpm run check-types
 
       - name: Check exports
-        run: bun run check-exports
+        run: pnpm run check-exports
 
       - name: Run tests
-        run: bun run test
+        run: pnpm run test
